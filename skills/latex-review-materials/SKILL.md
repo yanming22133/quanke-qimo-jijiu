@@ -1,6 +1,6 @@
 ---
 name: latex-review-materials
-description: Use when generating Chinese LaTeX review materials from any course content (PDFs, PPTs, DOCX, lecture recordings). Extracts the real exam format, scope and emphasis first, then builds chapter summaries, exercises, and 2-3 mock papers with separate answer files, scoring rubrics, answer space for writing, and case-based questions. Includes per-type playbooks for STEM, humanities, ideology/politics, management, law and medicine.
+description: Use when generating Chinese LaTeX review materials from any course content (PDFs, PPTs, DOCX, lecture recordings). Extracts the real exam format, scope and emphasis first, then builds chapter summaries, exercises, and 3-5 mock papers with separate answer files, scoring rubrics, answer space for writing, and six big-question types (calculation, proof, diagram, programming, case, material analysis). Includes per-type playbooks for STEM, humanities, ideology/politics, management, law and medicine.
 ---
 
 # LaTeX Chinese Review Materials Generator (Universal)
