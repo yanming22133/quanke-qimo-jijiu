@@ -126,7 +126,7 @@ Only if `pdftotext` produces garbled output: try `Read` as fallback. If both fai
 
 ```
 Signals in materials:
-  Formulas, derivations, "证明", Greek letters, numbers to compute   → QUANTITATIVE (math/physics/econ-theory)
+  Formulas, derivations, "证明", Greek letters, numbers to compute   → QUANTITATIVE (math/physics/investment/finance)
   Code, architecture, circuits, protocols, "设计/实现"               → ENGINEERING
   Events, dates, concepts, policies, ideology, legal articles        → QUALITATIVE (humanities/social science)
   Official documents, "精神/意义/新时代", value judgments, 时政        → IDEOLOGICAL (思政/政治理论)
@@ -149,7 +149,7 @@ A paper that works for management will fail for 思政 and for engineering. Set 
 
 | Course type | Typical question types | Answer space | Marking logic | Fatal mistakes |
 |---|---|---|---|---|
-| **Engineering** | 选择、填空、简答、计算、画图、设计 | 计算 8--12 cm；画图半页（给坐标/网格）；证明 10 cm | 步骤分：公式→代入→结果→单位；画图看规范 | 只写结果无过程；单位/量纲错；图无标注 |
+| **Engineering** | 选择、填空、简答、计算、画图、设计、编程 | 计算 8--12 cm；画图半页（给坐标/网格）；代码 20--30 行 | 步骤分：公式→代入→结果→单位；代码看正确性/边界/复杂度 | 只写结果无过程；单位/量纲错；代码只过样例 |
 | **Humanities** | 名词解释、简答、材料分析、论述 | 名词 4 cm；简答 8 cm；论述 1.5 页 | 观点 + 论据 + 结构 + 表达；允许多元答案但要论证 | 只罗列不论证；无文本/史料证据；时代错置 |
 | **Ideological (思政)** | 单选、多选、判断、简答、材料分析、论述 | 简答 8--10 cm；材料分析 12--15 cm；论述整页 | **踩点给分**，关键词必须是官方表述；多选按“少选得部分分、错选不得分” | 口语化、自由发挥、引用错、观点偏差；用旧表述 |
 | **Quantitative** | 选择、填空、计算、证明 | 计算 8--10 cm；证明 10--12 cm | 步骤分 + 结果分；有效数字/近似条件 | 跳步；条件写错；结论与假设不符 |
@@ -204,18 +204,57 @@ Rules:
 - End every paper with a scratch area: `\newpage\section*{草稿区}\mbox{}\newpage\mbox{}\newpage`.
 - Verify: each 论述/案例 sub-question has a following `\vspace` in the source (the quality checker enforces at least 3 per exam file).
 
-### 3.5.2 Case-based questions (when the course supplies cases)
+### 3.5.2 Big-question templates (six types — not only cases)
 
-- Put the case in a breakable `infobox`, 500--900 Chinese characters, **self-contained**: students must not need the textbook or original PDF.
-- Structure: case box → "请回答：" → 3 sub-questions with explicit points (e.g. 9+8+8).
-- Each sub-question must map to a course framework (five forces / value chain / generic strategy / diversification / entry mode), not general knowledge.
-- Answer file: scoring points per sub-question plus a short "参考思路" box — not a full model essay.
-- If the folder has N cases and you need 2N big questions, reuse cases with DIFFERENT angles (same case for "five forces" in one paper, "value chain" in another) and document the mapping in the README.
+A paper's big questions must match the discipline. Pick from these six; a paper may mix two or three. **Do not default to essay/case for a quantitative or engineering course.**
+
+#### A. Calculation (investment, finance, accounting, engineering, physics)
+
+- Structure: 已知 → 求 → 公式 → 代入 → 结果 → 单位/结论.
+- Space: 8--12 cm per sub-question; multi-period problems may need a full page.
+- Rubric: formula 30%, substitution 30%, result 30%, unit/significance 10%.
+- Must give: discounting convention, tax rate, units, rounding rule, and whether a formula sheet is allowed.
+- Typical mistakes: skipping steps, mixing nominal/real rates, unit mismatch, wrong sign.
+
+#### B. Proof / derivation (math, theory, algorithms)
+
+- Structure: 已知 / 求证 → 证明（关键步骤）→ 结论.
+- Space: 10--12 cm.
+- Rubric: approach 40%, key steps 40%, conclusion 20%.
+
+#### C. Diagram / design (electronics, mechanical, civil, networks)
+
+- Structure: 给定条件 → 画图/设计 → 标注 → 说明.
+- Space: half a page with grid or a blank frame (never a 3 cm strip).
+- Rubric: topology 40%, parameters/labels 30%, standard compliance 30%.
+- Provide the axes, units and required symbols; state whether drafts are allowed.
+
+#### D. Programming (CS, data science, AI)
+
+- Structure: 题目描述 + 输入/输出示例 + 数据范围与约束 + 要求（语言、复杂度、是否允许伪代码）.
+- Space: 20--30 lines on paper, or a code box; leave room for complexity analysis.
+- Rubric: correctness 50% (including edge cases), complexity 20%, structure/style 20%, clarity 10%.
+- Include at least one edge case in the sample; say explicitly if only pseudocode is accepted.
+- Typical mistakes: happy path only, ignoring constraints, no complexity statement.
+
+#### E. Case analysis (management, law, medicine)
+
+- Structure: case box (breakable `infobox`, 500--900 字, self-contained) → "请回答：" → 3 sub-questions with explicit points.
+- Each sub-question maps to a course framework (five forces / value chain / strategy / entry mode / 涵摄 / 鉴别诊断), not general knowledge.
+- Rubric: framework 40%, case facts 30%, conclusion/recommendation 30%.
+- If the folder has N cases and you need 2N questions, reuse cases with DIFFERENT angles and document the mapping.
 - Never split a case box from its questions (see 3.5.3).
+
+#### F. Material analysis / essay (humanities, ideology/politics)
+
+- Structure: 材料/引文 → 设问（是什么/为什么/怎么做）→ 论述.
+- Space: 12--15 cm (material analysis) or a full page (essay).
+- Rubric: 观点 30%, 依据/原文 40%, 结构 20%, 表达 10%; 思政按踩点给分.
+- For 思政: every key point must use the official formulation; add a 表述对照表 (口语 → 规范).
 
 ### 3.5.3 Page layout for exams
 
-- `\newpage` before 论述题 and 案例分析题 so each case starts on a fresh page.
+- `\newpage` before the big-question sections (论述/计算/案例) so each block starts on a fresh page.
 - Case box + "请回答" + first sub-question should fit on one page.
 - Per-paper header: `\fancyhead[R]{Mock Exam A}` (English only).
 - Paper title block: course, "期末模拟试卷 X", time, full marks, closed-book, and the chapter coverage line.
@@ -239,6 +278,13 @@ Per-section design:
 | 简答 | restate | compare + conditions | open synthesis, no single textbook answer |
 | 论述 | one framework | two frameworks + evidence | thesis + counter-thesis + rebuttal + boundary |
 | 案例 | complete data, 3 sub-questions | conflicting data, ask for judgment | missing data, ask for assumptions + decision + risks |
+| 计算 | single-step substitution | multi-step / multi-period | requires modeling + stated assumptions |
+| 编程 | direct implementation | added constraints / optimization | edge cases + complexity analysis + proof |
+
+Type-specific ladder notes:
+- **Calculation**: the harder version changes the *setup* (multi-period, taxes, inflation, embedded options), not just the numbers. Still one correct answer, but partial credit follows steps.
+- **Programming**: the harder version adds constraints (time/memory), adversarial inputs, or a required complexity bound. Provide sample I/O and at least one edge case; say whether pseudocode is accepted.
+- **Proof**: D adds an intermediate lemma; E requires constructing the argument (no given lemma).
 
 Marking shifts:
 - D/E add points for **argument quality** and **trade-off justification**, not for more content.
@@ -296,6 +342,7 @@ Ch N: [TITLE] — MUST cover:
 - [ ] `grep -P '[\\x{1F300}-\\x{1F9FF}]' file.tex` returns empty?
 - [ ] All tcolorbox titles are English or simple Chinese without [ inside?
 - [ ] (exam files) every 论述/案例 sub-question followed by `\vspace`?
+- [ ] Big questions match the discipline (calculation / proof / diagram / programming / case / material)?
 - [ ] No 参考答案/评分标准 in exam files?
 - [ ] Format matches Step 0 (not the 20+10+10+5 fallback)?
 
@@ -356,6 +403,7 @@ If compilation fails:
 8. \uline{} → MUST have \usepackage[normalem]{ulem} in preamble
 9. \begin{enumerate} count MUST equal \end{enumerate} count — COUNT THEM after writing
 10. Exam files: leave \vspace after every big question (论述 9--12 cm, 案例每小问 3--4 cm); never put 参考答案 inside exam files
+11. Big questions must match the discipline: calculation / proof / diagram / programming / case / material analysis — never all essays
 ```
 
 ## Common Errors (quick reference)

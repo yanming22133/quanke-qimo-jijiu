@@ -60,7 +60,36 @@ Reusable blueprint for mock papers. Copy the blocks below and fill in the Step 0
 \end{enumerate}
 ```
 
-## 5. Answer template
+## 5. Calculation question template
+
+```latex
+\section*{三、计算题（共 30 分）}
+\begin{enumerate}
+\item （15 分）某项目初始投资 1000 万元，未来三年每年末现金流 400 万元，
+折现率 10\%。求净现值，并判断是否可行。
+\vspace{12cm}
+\end{enumerate}
+```
+
+Answer file: 公式 30% / 代入 30% / 结果 30% / 单位与结论 10%。
+
+## 6. Programming question template
+
+```latex
+\section*{四、编程题（共 20 分）}
+\textbf{题目}：实现函数 \texttt{solve(nums, target)}，返回两数之和的下标。
+\textbf{输入}：nums = [2,7,11,15], target = 9
+\textbf{输出}：[0,1]
+\textbf{约束}：2 ≤ len(nums) ≤ 10^4；只存在一个答案；不得重复使用同一元素。
+\textbf{要求}：写出完整函数，并说明时间复杂度。
+\vspace{1cm}
+% 答题区：20--30 行；若需代码框，用 \begin{verbatim} 或带行号的 lstlisting
+\vspace{8cm}
+```
+
+评分：正确性 50%（含边界）/ 复杂度 20% / 结构 20% / 清晰 10%。
+
+## 7. Answer template
 
 ```latex
 \subsection*{1. 第一问（10 分）}
@@ -69,7 +98,7 @@ Reusable blueprint for mock papers. Copy the blocks below and fill in the Step 0
 \end{notebox}
 ```
 
-## 6. Difficulty ladder (optional D/E)
+## 8. Difficulty ladder (optional D/E)
 
 | 维度 | A/B/C 基础 | D 提高 | E 挑战 |
 |---|---|---|---|
@@ -89,7 +118,7 @@ Reusable blueprint for mock papers. Copy the blocks below and fill in the Step 0
 
 规则：D/E 不得超出考试范围；难度来自“整合与判断”，不是来自偏题、怪题或模糊表述。
 
-## 7. Delivery checklist
+## 9. Delivery checklist
 
 - [ ] 每道大题后有 `\vspace`，且大小与题型匹配
 - [ ] 论述/案例各自 `\newpage` 起页，案例框与问题不分页
