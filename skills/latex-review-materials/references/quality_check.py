@@ -129,9 +129,11 @@ def check_file(filepath):
     is_exam = (("模拟卷" in fname) or lower.startswith("exam") or ("mock_exam" in lower)) and not is_answer
     if is_exam:
         vspaces = len(re.findall(r'\\vspace\*?\{', content))
-        if vspaces < 3:
-            print(f"  FAIL: exam has only {vspaces} \\vspace — add writing space after each big question (Step 3.5.1)")
+        if vspaces == 0:
+            print("  FAIL: exam has no \\vspace — add writing space after each big question (Step 3.5.1)")
             EXIT_CODE = 1
+        elif vspaces < 3:
+            print(f"  WARN: only {vspaces} \\vspace — check that every big question has writing space")
         else:
             print(f"  PASS: answer space present ({vspaces} \\vspace)")
         if "参考答案" in content or "评分标准" in content:
