@@ -4,7 +4,7 @@
 
 **English name**: ReviewCraft
 
-ReviewCraft 是一个给 AI 编码助手用的 **Skill**（Claude Code / OpenCode）。它不是一个独立程序，而是一套工作流 + 模板 + 校验脚本：你先给它课程材料，它先提取真实考试情报，再产出 LaTeX 排版的复习资料。
+ReviewCraft 是一套给 **AI Agent** 用的工作流包（Skill），**不绑定任何客户端**：Claude Code、Codex、Gemini CLI、Cursor、ChatGPT、本地模型……只要它能读文件、能跑命令，就能用。它不是一个独立程序，而是「流程 + 模板 + 校验脚本」：你先给它课程材料，它先提取真实考试情报，再产出 LaTeX 排版的复习资料。
 
 ---
 
@@ -80,31 +80,32 @@ ReviewCraft 是一个给 AI 编码助手用的 **Skill**（Claude Code / OpenCod
 
 ---
 
-## 安装
+## 怎么用
 
-### Claude Code / OpenCode
+不需要安装任何客户端，也没有运行时依赖。三选一：
 
-把 `skills/latex-review-materials/` 整个目录复制到你的 skills 目录：
+### 方式一：直接交给对话里的 Agent
 
-**Windows**
+把 `skills/latex-review-materials/` 文件夹（或其中的 `SKILL.md` + `references/`）拖进对话，或者让 Agent 读取这个目录，然后说：
 
-```powershell
-.\install.ps1
-# 或手动
-Copy-Item -Recurse .\skills\latex-review-materials "$env:USERPROFILE\.claude\skills\"
+```
+按这个 skill 帮我做「战略管理」的复习资料，材料在 F:\课程\战略管理\
 ```
 
-**macOS / Linux**
+### 方式二：放进 Agent 的 skills / 规则目录
 
-```bash
-./install.sh
-# 或手动
-cp -r skills/latex-review-materials ~/.claude/skills/
+如果你的 Agent 支持自定义 skill、rules 或 instructions 目录，把 `latex-review-materials/` 整个复制进去即可。目录名保持 `latex-review-materials`，与 `SKILL.md` 的 `name` 字段一致；具体路径取决于你用的 Agent，不是固定的。
+
+### 方式三：CLI Agent
+
+把仓库路径直接告诉它：
+
+```
+读 C:\path\to\reviewcraft\skills\latex-review-materials\SKILL.md，
+按里面的流程帮我做复习资料。
 ```
 
-目录名必须是 `latex-review-materials`，与 `SKILL.md` 的 `name` 字段一致。
-
-重启会话后，问“帮我做战略管理的复习资料”即可触发；也可以直接点名。
+> 说明：这个仓库只包含 `SKILL.md`、Markdown 参考文档和一个 Python 校验脚本，没有二进制、没有服务端、没有账号体系，所以任何 Agent 都能直接用。
 
 ---
 
@@ -117,7 +118,7 @@ F:\课程\战略管理\ 先看课件和考点录音，按考试题型出三套�
 最后一题用文件夹里的案例，大题下面留写答案的空白。
 ```
 
-Skill 会先输出一张“考试情报表”让你确认（题型、范围、依据、重点），再开始生成；如果你没提供题型，它会先问。
+Agent 会先输出一张“考试情报表”让你确认（题型、范围、依据、重点），再开始生成；如果你没提供题型，它会先问。
 
 生成后建议流程：
 
@@ -148,8 +149,6 @@ reviewcraft/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── install.ps1
-├── install.sh
 └── skills/
     └── latex-review-materials/
         ├── SKILL.md
