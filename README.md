@@ -4,7 +4,7 @@
 
 **English name**: ReviewCraft
 
-ReviewCraft 是一套给 **AI Agent** 用的工作流包（Skill），**不绑定任何客户端**：Claude Code、Codex、Gemini CLI、Cursor、ChatGPT、本地模型……只要它能读文件、能跑命令，就能用。它不是一个独立程序，而是「流程 + 模板 + 校验脚本」：你先给它课程材料，它先提取真实考试情报，再产出 LaTeX 排版的复习资料。
+ReviewCraft 是一套给 **AI Agent** 用的工作流包（Skill），**不绑定任何客户端**：对话式 Agent、CLI Agent、IDE 里的助手、本地模型都可以，只要它能读文件、能跑命令。它不是一个独立程序，而是「流程 + 模板 + 校验脚本」：你先给它课程材料，它先提取真实考试情报，再产出 LaTeX 排版的复习资料。
 
 ---
 
