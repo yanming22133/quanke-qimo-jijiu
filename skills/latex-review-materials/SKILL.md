@@ -5,36 +5,36 @@ description: Use when generating Chinese LaTeX review materials from any course 
 
 # LaTeX Chinese Review Materials Generator (Universal)
 
-> One-click: any course materials → 6--8 PDFs (summary, exercises, 2--3 exams + answers).
+> One-click: any course materials → 6--12 PDFs (summary, exercises, 3--5 exams + answers).
 
 ## Output Files
 
-Generate 6--8 files: 2 base files + 2 per exam. Default 3 exams = 8 files; small courses (≤3 chapters) = 2 exams = 6 files.
+Generate 2 + 2N files: 2 base files + one paper and one answer file per exam. Default N = 3 (8 files); small courses (≤3 chapters) N = 2 (6 files); when the user asks for more sets or a difficulty ladder, N = 5 (12 files).
 
 | File | Purpose |
 |------|---------|
 | `知识点汇总.tex` | Per-chapter detailed review notes |
 | `章节练习.tex` | Exercises with answers inline in notebox |
-| `模拟卷A.tex` | Mock Exam A — questions ONLY (chapters 1st half) |
-| `模拟卷A_答案.tex` | Exam A solutions with scoring rubrics |
-| `模拟卷B.tex` | Mock Exam B — questions ONLY (chapters 2nd half) |
-| `模拟卷B_答案.tex` | Exam B solutions with scoring rubrics |
-| `模拟卷C.tex` | Mock Exam C — questions ONLY (synthesis/cross-chapter) |
-| `模拟卷C_答案.tex` | Exam C solutions with scoring rubrics |
+| `模拟卷A.tex` / `_答案.tex` | Foundations — questions only / solutions with rubrics |
+| `模拟卷B.tex` / `_答案.tex` | Core chapters |
+| `模拟卷C.tex` / `_答案.tex` | Synthesis across chapters |
+| `模拟卷D.tex` / `_答案.tex` | Optional — 提高卷 (harder) |
+| `模拟卷E.tex` / `_答案.tex` | Optional — 挑战卷 (hardest) |
 
-**3-exam split strategy** (maximizes topic coverage with no overlap):
-- Exam A: chapters 1--N/3 (foundations)
-- Exam B: chapters N/3+1 -- 2N/3 (core)
-- Exam C: chapters 2N/3+1 -- N + cross-chapter synthesis (advanced/integration)
+**Chapter split for N exams** (maximizes coverage, no overlap):
+- A: first third — foundations
+- B: second third — core
+- C: last third + cross-chapter synthesis
+- D/E (optional): do NOT add new chapters. They re-test the same scope at higher difficulty (see §3.6).
 
 For small courses (≤3 chapters): fall back to 2 exams (A: Ch1-2, B: Ch2-3 with overlap allowed).
 
-Each exam uses the format extracted in Step 0. Fallback only if nothing is known: 20 MC (×1) + 10 multi (×2) + 10 T/F (×1) + 5 essay/calc (×10) = 100 pts, 120 min. Keep question topics NON-OVERLAPPING across exams: an exam topic appearing in Exam A should NOT appear in Exam B or C.
+Each exam uses the format extracted in Step 0. Fallback only if nothing is known: 20 MC (×1) + 10 multi (×2) + 10 T/F (×1) + 5 essay/calc (×10) = 100 pts, 120 min. Keep question topics NON-OVERLAPPING across the first three exams: a topic in Exam A should NOT appear in B or C. D/E may revisit topics but must change the angle and raise the cognitive level.
 
 **Critical rules**:
 - `模拟卷*.tex` = questions ONLY + scratch paper. NEVER put answers in exam files.
 - `模拟卷*_答案.tex` = separate answer files with scoring rubrics.
-- Use Chinese filenames as shown above. For English-only courses, use English filenames instead: `chapter_summary.tex`, `chapter_exercises.tex`, `mock_exam_A/B/C.tex`, `mock_exam_A/B/C_answers.tex`.
+- Use Chinese filenames as shown above. For English-only courses, use English filenames instead: `chapter_summary.tex`, `chapter_exercises.tex`, `mock_exam_A...E.tex`, `mock_exam_A...E_answers.tex`.
 
 - User asks to generate "复习资料", "考点总结", "模拟卷", "练习题"
 - User provides course materials (PDF/PPT/DOCX) and wants PDF output
@@ -220,7 +220,33 @@ Rules:
 - Per-paper header: `\fancyhead[R]{Mock Exam A}` (English only).
 - Paper title block: course, "期末模拟试卷 X", time, full marks, closed-book, and the chapter coverage line.
 
-## Step 4: Dispatch Agents (6-8 Parallel)
+### 3.6 Difficulty ladder (optional D/E papers)
+
+"Harder" must be designed, not just labeled. Raise difficulty along four axes — never by leaving the syllabus or by making the wording vague.
+
+| Axis | A/B/C (base) | D 提高 | E 挑战 |
+|---|---|---|---|
+| Information in the stem | complete | noisy / distractors | conflicting or missing → student must state assumptions |
+| Frameworks required | 1 | 2, compared | 3, with boundary conditions |
+| Task verb | describe / explain | compare / apply | evaluate / decide / predict |
+| Answer expected | key points | argument | counter-argument + trade-off + implementation |
+
+Per-section design:
+
+| Section | A/B/C | D 提高 | E 挑战 |
+|---|---|---|---|
+| 单选 | recall | discriminate confusable concepts | scenario judgment with two plausible options |
+| 简答 | restate | compare + conditions | open synthesis, no single textbook answer |
+| 论述 | one framework | two frameworks + evidence | thesis + counter-thesis + rebuttal + boundary |
+| 案例 | complete data, 3 sub-questions | conflicting data, ask for judgment | missing data, ask for assumptions + decision + risks |
+
+Marking shifts:
+- D/E add points for **argument quality** and **trade-off justification**, not for more content.
+- Still provide a reference answer, but label it "参考思路，不唯一".
+
+Hard rule: D/E must stay inside the exam scope from Step 0. Difficulty comes from integration and judgment, not from obscure or out-of-scope content.
+
+## Step 4: Dispatch Agents (up to 12 Parallel)
 
 Always generate ALL files simultaneously as background agents:
 1. `知识点汇总.tex` (or `chapter_summary.tex` for English courses)
@@ -231,8 +257,12 @@ Always generate ALL files simultaneously as background agents:
 6. `模拟卷B_答案.tex` — Exam B solutions
 7. `模拟卷C.tex` — Exam C (3rd chunk + cross-chapter synthesis)
 8. `模拟卷C_答案.tex` — Exam C solutions
+9. `模拟卷D.tex` — 提高卷 (same scope, higher difficulty per §3.6)
+10. `模拟卷D_答案.tex`
+11. `模拟卷E.tex` — 挑战卷 (highest difficulty per §3.6)
+12. `模拟卷E_答案.tex`
 
-For ≤3 chapters: use 4 agents (summary + exercises + 2 exams). Each exam covers DIFFERENT chapter groups to maximize topic coverage with zero overlap.
+Only add D/E when the user asks for more sets or a difficulty ladder. For ≤3 chapters: use 4 agents (summary + exercises + 2 exams). Each exam covers DIFFERENT chapter groups to maximize topic coverage with zero overlap.
 
 ```
 ## AGENT PROMPT TEMPLATE
@@ -350,6 +380,8 @@ If compilation fails:
 | Skipping quality check before compile | Step 5 on every file |
 | Using Read for PDF → false encryption error | `pdftotext` first |
 | No blank space under essay/case questions | Add `\vspace` per Step 3.5.1 |
+| Making D/E harder by obscure or out-of-scope wording | Raise integration/judgment per §3.6 |
+| D/E adding new chapters | D/E re-test the same scope at a higher cognitive level |
 | Case box split across pages from its questions | `\newpage` before 论述/案例分析 (Step 3.5.3) |
 | Exam requires the textbook / original case PDF | Rewrite the case self-contained (500--900 字) |
 | Using slide terminology when the textbook differs | Use the authoritative source's term + the other in parentheses (§0.2) |
