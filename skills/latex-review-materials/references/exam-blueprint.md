@@ -17,7 +17,7 @@ Copy this card into the chat when the materials do not answer these questions. A
 5. 还剩几天：__ 天；每天大概 __ 小时
 6. 想要几套卷：3 套 / 5 套（后两套提高+挑战）；答案要多细：只给答案 / 给步骤 / 评分点+易错点
 
-默认：3 套、评分点+关键步骤、中文、不做 OCR。
+默认：5 套（A–E，后两套提高/挑战）、评分点+关键步骤、中文、不做 OCR。
 ```
 
 ## 1. Exam brief (page 1 of summary + README)
@@ -119,7 +119,7 @@ Answer file: 公式 30% / 代入 30% / 结果 30% / 单位与结论 10%。
 \end{notebox}
 ```
 
-## 8. Difficulty ladder (optional D/E)
+## 8. Difficulty ladder (D/E, default)
 
 难度只能来自“信息完整前提下的思考更深”，不能靠删条件、制造矛盾或模糊设问。
 

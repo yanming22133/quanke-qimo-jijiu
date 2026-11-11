@@ -9,7 +9,7 @@ description: Use when generating Chinese LaTeX review materials from any course 
 
 ## Output Files
 
-Generate 2 + 2N files: 2 base files + one paper and one answer file per exam. Default N = 3 (8 files); small courses (≤3 chapters) N = 2 (6 files); when the user asks for more sets or a difficulty ladder, N = 5 (12 files).
+Generate 2 + 2N files: 2 base files + one paper and one answer file per exam. Default N = 5 (12 files: A--C plus D 提高 and E 挑战); small courses (≤3 chapters) N = 2 (6 files); if the user is time-constrained or asks for fewer, N = 3 (8 files).
 
 | File | Purpose |
 |------|---------|
@@ -18,8 +18,8 @@ Generate 2 + 2N files: 2 base files + one paper and one answer file per exam. De
 | `模拟卷A.tex` / `_答案.tex` | Foundations — questions only / solutions with rubrics |
 | `模拟卷B.tex` / `_答案.tex` | Core chapters |
 | `模拟卷C.tex` / `_答案.tex` | Synthesis across chapters |
-| `模拟卷D.tex` / `_答案.tex` | Optional — 提高卷 (harder) |
-| `模拟卷E.tex` / `_答案.tex` | Optional — 挑战卷 (hardest) |
+| `模拟卷D.tex` / `_答案.tex` | 提高卷 (default in the 5-set output) |
+| `模拟卷E.tex` / `_答案.tex` | 挑战卷 (default in the 5-set output) |
 
 **Chapter split for N exams** (maximizes coverage, no overlap):
 - A: first third — foundations
@@ -105,12 +105,12 @@ Never start writing on assumptions. If the materials don't answer the questions 
 4. 还剩几天、每天能投入几小时（决定资料厚度与套数）。
 5. 哪几章最弱（加权：多出题、多解释、多对比）。
 6. 目标分数（及格线 / 中上 / 冲高分 → 决定深度与是否加挑战题）。
-7. 想要几套卷（默认 3；要难度阶梯就 5）。
+7. 想要几套卷（默认 5：A–C + D 提高 + E 挑战；时间紧可只要 3 套，或 2 套）。
 8. 答案要多细（只给答案 / 给步骤 / 给评分点 + 易错点）。
 9. 是否需要 OCR 扫描教材、是否需要双语。
 
 **Defaults if the user does not answer** (print them on page 1 so the user can correct):
-- 3 sets；答案给评分点 + 关键步骤；不 OCR；中文。
+- 默认 5 套（A–C + D 提高 + E 挑战）；时间紧才降到 3 套；答案给评分点 + 关键步骤；不 OCR；中文。
 - 范围 = 所提供材料覆盖的章节；命题依据 = 材料中出现最多的那套，并标注“未确认”。
 
 **How to ask**: paste one compact card (template in `references/exam-blueprint.md §1`), at most 6 questions at a time. If the user says "你看着办", state the defaults and proceed.
@@ -299,7 +299,7 @@ A paper's big questions must match the discipline. Pick from these six; a paper 
 
 Number the PDFs in reading order: `01_知识点汇总`, `02_章节练习`, `03_模拟卷A`, `04_模拟卷A_答案`, `05_模拟卷B` … Keep the `.tex` sources in a `_tex源文件/` subfolder and the OCR text in `NN_课本OCR_考点章节/`. Put the exam brief in `00_说明.md`.
 
-### 3.6 Difficulty ladder (optional D/E papers)
+### 3.6 Difficulty ladder (D/E papers, default)
 
 Difficulty must come from **deeper thinking on complete information**, never from withholding data or making the stem ambiguous. A student must always be able to solve the question from what is printed.
 
@@ -362,7 +362,7 @@ Always generate ALL files simultaneously as background agents:
 11. `模拟卷E.tex` — 挑战卷 (highest difficulty per §3.6)
 12. `模拟卷E_答案.tex`
 
-Only add D/E when the user asks for more sets or a difficulty ladder. For ≤3 chapters: use 2 exams (6 files: summary + exercises + 2 papers + 2 answers). Each exam covers DIFFERENT chapter groups to maximize topic coverage with zero overlap.
+D/E are part of the default 5-set output; drop them (N = 3) when the user is time-constrained or asks for fewer. For ≤3 chapters: use 2 exams (6 files: summary + exercises + 2 papers + 2 answers). Each exam covers DIFFERENT chapter groups to maximize topic coverage with zero overlap.
 
 If the host agent has no parallel sub-agents, generate the files sequentially in the same order — the parallel step is an optimization, not a requirement.
 
