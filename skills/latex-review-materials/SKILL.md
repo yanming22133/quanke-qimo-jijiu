@@ -92,6 +92,29 @@ Different courses give you different amounts of information. Record which tier y
 
 Always add one line: "两种表述均有效" only if the teacher actually said so; otherwise do not invent leniency.
 
+### 0.3 Ask before generating (format + personalization)
+
+Never start writing on assumptions. If the materials don't answer the questions below, ask the user — **in one batch, not one by one**.
+
+**Must know (blocking):**
+1. 题型与分值：选择/简答/计算/证明/画图/编程/案例各几道、多少分、多长时间。
+2. 考试范围与排除章节。
+3. 命题依据：教材 / PPT / 两者 / 往年题。
+
+**Personalization (ask once, then apply):**
+4. 还剩几天、每天能投入几小时（决定资料厚度与套数）。
+5. 哪几章最弱（加权：多出题、多解释、多对比）。
+6. 目标分数（及格线 / 中上 / 冲高分 → 决定深度与是否加挑战题）。
+7. 想要几套卷（默认 3；要难度阶梯就 5）。
+8. 答案要多细（只给答案 / 给步骤 / 给评分点 + 易错点）。
+9. 是否需要 OCR 扫描教材、是否需要双语。
+
+**Defaults if the user does not answer** (print them on page 1 so the user can correct):
+- 3 sets；答案给评分点 + 关键步骤；不 OCR；中文。
+- 范围 = 所提供材料覆盖的章节；命题依据 = 材料中出现最多的那套，并标注“未确认”。
+
+**How to ask**: paste one compact card (template in `references/exam-blueprint.md §1`), at most 6 questions at a time. If the user says "你看着办", state the defaults and proceed.
+
 ---
 
 ## Step 1: Read ALL Materials
@@ -167,10 +190,17 @@ A paper that works for management will fail for 思政 and for engineering. Set 
 ## Step 3: Plan Content with Priority Weighting
 
 **Chapter priority logic** (use the first that applies):
+0. User says a chapter is **weak** ("我第 4 章最虚") → weight it heaviest: more questions, more explanation, more comparisons.
 1. User explicitly says "Chapter X is most important" or provides a priority topic list → weight heavily
 2. Instructor's materials mark topics as "重点"/"考点" → weight accordingly
 3. Past exam questions cluster on certain chapters → weight accordingly
 4. Default: equal weight across all chapters
+
+**Apply personalization after Step 0.3:**
+- Time budget: ≤3 days → summary + 1–2 sets; ≥1 week → summary + exercises + 3–5 sets.
+- Target score: pass → key points and basics; high score → add comparisons, edge cases, challenge questions.
+- Answer detail: "points only" / "steps" / "rubric + common mistakes" (default: rubric + key steps).
+- Weak chapters: add one extra worked example and one extra question per weak chapter.
 
 **Per-chapter minimums:**
 - Summary: 150+ lines, 5+ subsections, 1+ comparison table/timeline, [CORE]/[KEY]/[NOTE] labels

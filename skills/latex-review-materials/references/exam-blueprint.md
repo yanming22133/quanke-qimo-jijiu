@@ -2,6 +2,24 @@
 
 Reusable blueprint for mock papers. Copy the blocks below and fill in the Step 0 values.
 
+## 0. Intake card (ask before generating)
+
+Copy this card into the chat when the materials do not answer these questions. Ask at most 6 at a time.
+
+```markdown
+为了生成对味的资料，先确认 6 件事（不确定就写“不知道”，我按默认来）：
+
+1. 题型与分值：选择__道×__分；简答__道×__分；计算__道×__分；
+   编程__道×__分；案例__道×__分；考试时长__分钟
+2. 范围：考第__章到第__章；不考第__章
+3. 命题依据：教材 / PPT / 两者 / 往年题
+4. 你哪几章最弱：______（会多出题、多解释）
+5. 还剩几天：__ 天；每天大概 __ 小时
+6. 想要几套卷：3 套 / 5 套（后两套提高+挑战）；答案要多细：只给答案 / 给步骤 / 评分点+易错点
+
+默认：3 套、评分点+关键步骤、中文、不做 OCR。
+```
+
 ## 1. Exam brief (page 1 of summary + README)
 
 ```markdown
