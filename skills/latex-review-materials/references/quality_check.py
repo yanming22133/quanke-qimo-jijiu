@@ -61,6 +61,11 @@ def check_file(filepath):
     has_preamble = bool(re.search(r'\\input\{[^}]*preamble', content))
     if has_preamble:
         print("  SKIP: packages live in an \\input preamble (verify the preamble file separately)")
+        m = re.search(r'\\input\{([^}]*preamble[^}]*)\}', content)
+        if m:
+            p = os.path.join(os.path.dirname(os.path.abspath(filepath)), m.group(1))
+            if not os.path.exists(p):
+                print(f"  WARN: preamble not found at {m.group(1)}")
     else:
         for pkg, pattern in required.items():
             if re.search(pattern, content):

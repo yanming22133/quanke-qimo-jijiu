@@ -36,6 +36,8 @@ Each exam uses the format extracted in Step 0. Fallback only if nothing is known
 - `模拟卷*_答案.tex` = separate answer files with scoring rubrics.
 - Use Chinese filenames as shown above. For English-only courses, use English filenames instead: `chapter_summary.tex`, `chapter_exercises.tex`, `mock_exam_A...E.tex`, `mock_exam_A...E_answers.tex`.
 
+## Use when
+
 - User asks to generate "复习资料", "考点总结", "模拟卷", "练习题"
 - User provides course materials (PDF/PPT/DOCX) and wants PDF output
 - Any course type, any language mix (Chinese, English, bilingual)
@@ -62,7 +64,7 @@ Rules:
 - **Never** default to 20 MC + 10 multi + 10 T/F + 5 essay unless nothing else is available. That format is a fallback, not the default.
 - If the exam has no multiple-choice, do not invent MC. If it has one 30-point case, build the paper around cases.
 - If a recording exists, transcribe it first. The last lecture almost always contains format, scope and emphasis.
-- Exclusions are exam content too: "Ch4 and Ch9 are NOT in scope" must appear on page 1.
+- Exclusions are exam content too: "Ch7 is NOT in scope" must appear on page 1.
 
 ### 0.1 Intel inventory: what you can get varies by course
 
@@ -194,7 +196,10 @@ A mock exam without writing space is a question list, not an exam. Every questio
 | 填空 | 0.8--1.2 cm per blank | `\vspace{1cm}` |
 | 名词解释 | 3 cm | `\vspace{3cm}` |
 | 简答 (10 pts) | 3--4 cm | `\vspace{3.2cm}` |
-| 计算 / 证明 | 6--8 cm | `\vspace{7cm}` |
+| 计算 | 8--12 cm | `\vspace{10cm}` |
+| 证明 / 推导 | 10--12 cm | `\vspace{11cm}` |
+| 画图 / 设计 | half a page with grid or frame | `\vspace{12cm}` + grid |
+| 编程 | 20--30 lines + complexity note | `\vspace{14cm}` |
 | 论述 (25 pts) | 9--12 cm, or a full page | `\vspace{10cm}` |
 | 案例分析 (30 pts, 3 小问) | 3--4 cm after EACH sub-question | `\vspace{3.2cm}` ×3 |
 
@@ -202,7 +207,8 @@ Rules:
 - Put `\vspace{...}` immediately after the sub-question it belongs to, never after the section heading.
 - If the paper would overflow, insert `\newpage` before the next big question instead of shrinking the space.
 - End every paper with a scratch area: `\newpage\section*{草稿区}\mbox{}\newpage\mbox{}\newpage`.
-- Verify: each 论述/案例 sub-question has a following `\vspace` in the source (the quality checker enforces at least 3 per exam file).
+- Verify: every big-question sub-question (论述/计算/编程/案例) has a following `\vspace` in the source (the quality checker enforces at least 3 per exam file).
+- Exam files must stand alone: no "见教材第 X 页" / "见课件"; every condition, number and case fact is printed in the paper.
 
 ### 3.5.2 Big-question templates (six types — not only cases)
 
@@ -254,10 +260,14 @@ A paper's big questions must match the discipline. Pick from these six; a paper 
 
 ### 3.5.3 Page layout for exams
 
-- `\newpage` before the big-question sections (论述/计算/案例) so each block starts on a fresh page.
+- `\newpage` before the big-question sections (论述/计算/编程/案例/材料) so each block starts on a fresh page.
 - Case box + "请回答" + first sub-question should fit on one page.
 - Per-paper header: `\fancyhead[R]{Mock Exam A}` (English only).
 - Paper title block: course, "期末模拟试卷 X", time, full marks, closed-book, and the chapter coverage line.
+
+### 3.5.4 Delivery numbering
+
+Number the PDFs in reading order: `01_知识点汇总`, `02_章节练习`, `03_模拟卷A`, `04_模拟卷A_答案`, `05_模拟卷B` … Keep the `.tex` sources in a `_tex源文件/` subfolder and the OCR text in `NN_课本OCR_考点章节/`. Put the exam brief in `00_说明.md`.
 
 ### 3.6 Difficulty ladder (optional D/E papers)
 
@@ -322,7 +332,9 @@ Always generate ALL files simultaneously as background agents:
 11. `模拟卷E.tex` — 挑战卷 (highest difficulty per §3.6)
 12. `模拟卷E_答案.tex`
 
-Only add D/E when the user asks for more sets or a difficulty ladder. For ≤3 chapters: use 4 agents (summary + exercises + 2 exams). Each exam covers DIFFERENT chapter groups to maximize topic coverage with zero overlap.
+Only add D/E when the user asks for more sets or a difficulty ladder. For ≤3 chapters: use 2 exams (6 files: summary + exercises + 2 papers + 2 answers). Each exam covers DIFFERENT chapter groups to maximize topic coverage with zero overlap.
+
+If the host agent has no parallel sub-agents, generate the files sequentially in the same order — the parallel step is an optimization, not a requirement.
 
 ```
 ## AGENT PROMPT TEMPLATE
@@ -333,8 +345,8 @@ Course: [NAME], [INSTITUTION], [INSTRUCTOR]
 Textbook: [TITLE, EDITION]
 Exam language: [EN/CN/BILINGUAL]
 
-### Preamble (copy exactly):
-[PASTE FULL PREAMBLE FROM references/latex-format-rules.md §15]
+### Preamble:
+Use `references/latex-format-rules.md §15` verbatim, either inline or as `\input{preamble.tex}` (keep it in the same folder).
 
 ### CHAPTER-BY-CHAPTER CONTENT:
 
@@ -348,14 +360,14 @@ Ch N: [TITLE] — MUST cover:
 [... repeat for all chapters ...]
 
 ### Mandatory Rules:
-1-9 [paste the 9 rules from Step 5 below]
+1-11 [paste the 11 rules from the "Mandatory Rules" section]
 
 ### Post-write checklist (run yourself):
 - [ ] `grep -c '\\begin{enumerate}' file.tex` == `grep -c '\\end{enumerate}' file.tex` ?
-- [ ] `grep '\\usepackage{ulem}' file.tex` returns match?
+- [ ] `ulem` present in the file or in the `\input` preamble?
 - [ ] `grep -P '[\\x{1F300}-\\x{1F9FF}]' file.tex` returns empty?
-- [ ] All tcolorbox titles are English or simple Chinese without [ inside?
-- [ ] (exam files) every 论述/案例 sub-question followed by `\vspace`?
+- [ ] All tcolorbox titles are English or short Chinese, with no `[` and no ASCII comma inside?
+- [ ] (exam files) every big-question sub-question (论述/计算/编程/案例) followed by `\vspace`?
 - [ ] Big questions match the discipline (calculation / proof / diagram / programming / case / material)?
 - [ ] No 参考答案/评分标准 in exam files?
 - [ ] Format matches Step 0 (not the 20+10+10+5 fallback)?
@@ -371,7 +383,7 @@ Target: [N] lines. Write file now.
 python references/quality_check.py *.tex
 ```
 
-If any check FAILS → fix with Edit, re-run check, THEN compile. The checker validates: enumerate balance, required packages, no `[` in tcolorbox titles, no emoji, no table floats inside tcolorbox, English-only headers.
+If any check FAILS → fix with Edit, re-run check, THEN compile. The checker validates: enumerate balance, required packages (skipped when a `\input` preamble is used), nested `[` and ASCII commas in tcolorbox titles, table floats inside tcolorbox, Chinese in headers, emoji, answer space in exam files, and answers leaked into exam files.
 
 ## Step 6: Compile and Verify
 
@@ -400,11 +412,11 @@ If compilation fails:
 1. `grep '^!' *.log | head -5` — find first error
 2. Common fixes: missing `\usepackage[normalem]{ulem}` → add to preamble; enumerate mismatch → remove stray `\end{enumerate}`; undefined command → add `\DeclareMathOperator` or `\newcommand`
 3. Fix with Edit, re-run Step 5, re-compile
-4. If an agent is still writing: `TaskStop` it first, then fix
+4. If a background agent is still writing, stop it first, then fix
 
 ---
 
-## 9 Mandatory Rules (in EVERY agent prompt)
+## 11 Mandatory Rules (in EVERY agent prompt)
 
 ```
 1. \documentclass[12pt,a4paper,fontset=fandol]{ctexart}
@@ -413,10 +425,10 @@ If compilation fails:
 4. Headers: ENGLISH ONLY in fancyhdr
 5. Colors: ALL \definecolor{}{RGB}{...} in preamble
 6. Compile: xelatex twice; clean aux
-7. tcolorbox titles: English or SHORT Chinese. NEVER put [ inside [...] title
+7. tcolorbox titles: English or SHORT Chinese. NEVER put `[` or an ASCII comma inside the optional title
 8. \uline{} → MUST have \usepackage[normalem]{ulem} in preamble
 9. \begin{enumerate} count MUST equal \end{enumerate} count — COUNT THEM after writing
-10. Exam files: leave \vspace after every big question (论述 9--12 cm, 案例每小问 3--4 cm); never put 参考答案 inside exam files
+10. Exam files: leave \vspace after every big question (论述 9--12 cm; 计算 8--12 cm; 编程 20--30 行; 案例每小问 3--4 cm); never put 参考答案 inside exam files
 11. Big questions must match the discipline: calculation / proof / diagram / programming / case / material analysis — never all essays
 ```
 
@@ -427,6 +439,7 @@ If compilation fails:
 | `\uline` undefined | Add `\usepackage[normalem]{ulem}` |
 | enumerate mismatch → blank PDF | Remove stray `\end{enumerate}` |
 | `Missing $ inserted` from tcolorbox title | Use English title, no `[` inside `[...]` |
+| `Package pgfkeys Error: I do not know the key` in a box title | Remove the ASCII comma from the title or wrap the title in braces |
 | `\cov`/`\plim` undefined (quant. courses) | `\DeclareMathOperator{\cov}{Cov}` / `\newcommand{\plim}{\operatorname{plim}}` |
 | `\E`/`\var` already defined | Use `\mathbb{E}` or skip (amsmath conflict) |
 | Read tool says "password-protected" | Use `pdftotext` instead (Read tool bug) |
@@ -446,6 +459,7 @@ If compilation fails:
 | D/E adding new chapters | D/E re-test the same scope at a higher cognitive level |
 | Case box split across pages from its questions | `\newpage` before 论述/案例分析 (Step 3.5.3) |
 | Exam requires the textbook / original case PDF | Rewrite the case self-contained (500--900 字) |
+| Exam says "见教材第 X 页" | Print all conditions and data in the paper |
 | Using slide terminology when the textbook differs | Use the authoritative source's term + the other in parentheses (§0.2) |
 | Assuming "textbook is authoritative" for every course | Record the source per course; many courses examine the PPT |
 | Assuming an exam format when no intel exists | Ask the user for format + scope; state assumptions on page 1 |
@@ -475,6 +489,6 @@ Read syllabus/Ch0 first. Read Ch1-2 fully to understand course style. For remain
 ## Reference Files
 
 - `references/latex-format-rules.md` — Full preamble, tcolorbox styles, color definitions, compilation
-- `references/course-types.md` — Per-type playbook: 思政 / 工科 / 文科 / 商科 / 法学 / 医学 (question types, marking, answer space, fatal mistakes)
+- `references/course-types.md` — Per-type playbook: 思政 / 工科 / 文科 / 商科 / 投资学·金融 / 计算机 / 法学 / 医学 (question types, marking, answer space, fatal mistakes)
 - `references/exam-blueprint.md` — Exam brief table, answer-space table, case/answer templates, delivery checklist
 - `references/quality_check.py` — Automated pre-compilation checker
