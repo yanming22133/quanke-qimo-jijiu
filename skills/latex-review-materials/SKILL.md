@@ -261,14 +261,25 @@ A paper's big questions must match the discipline. Pick from these six; a paper 
 
 ### 3.6 Difficulty ladder (optional D/E papers)
 
-"Harder" must be designed, not just labeled. Raise difficulty along four axes — never by leaving the syllabus or by making the wording vague.
+Difficulty must come from **deeper thinking on complete information**, never from withholding data or making the stem ambiguous. A student must always be able to solve the question from what is printed.
 
-| Axis | A/B/C (base) | D 提高 | E 挑战 |
+**Three levels — defined by cognitive demand, not by missing facts:**
+
+| Level | What changes | Example |
+|---|---|---|
+| 基础题 | one concept, one step, direct recall/application | 写出波特的三种基本战略 |
+| 难题 | several concepts linked, multi-step, cross-chapter, requires judgment | 用五力 + 价值链判断某企业该不该进入某行业 |
+| 易错题 | information complete, but contains a common misconception or a boundary condition | 给出两项业务收入占比，判断是相关约束型还是主导业务型（阈值易混） |
+
+**Ladder design (information stays complete and solvable):**
+
+| Axis | A/B/C | D 提高 | E 挑战 |
 |---|---|---|---|
-| Information in the stem | complete | noisy / distractors | conflicting or missing → student must state assumptions |
-| Frameworks required | 1 | 2, compared | 3, with boundary conditions |
-| Task verb | describe / explain | compare / apply | evaluate / decide / predict |
-| Answer expected | key points | argument | counter-argument + trade-off + implementation |
+| Knowledge span | single point | 2--3 linked concepts | cross-chapter integration |
+| Reasoning steps | 1--2 | 3--4 | multi-step with a stated decision rule |
+| Task verb | describe / explain | compare / analyze | evaluate / decide / predict |
+| Distractors | none | similar concepts in options or data (still solvable) | two defensible frameworks, student must justify the choice |
+| Common-error density | none | 1 classic pitfall | 2--3 boundary conditions |
 
 Per-section design:
 
@@ -277,20 +288,23 @@ Per-section design:
 | 单选 | recall | discriminate confusable concepts | scenario judgment with two plausible options |
 | 简答 | restate | compare + conditions | open synthesis, no single textbook answer |
 | 论述 | one framework | two frameworks + evidence | thesis + counter-thesis + rebuttal + boundary |
-| 案例 | complete data, 3 sub-questions | conflicting data, ask for judgment | missing data, ask for assumptions + decision + risks |
-| 计算 | single-step substitution | multi-step / multi-period | requires modeling + stated assumptions |
+| 案例 | complete data, 3 sub-questions | complete data + one distractor figure | complete data + a decision under constraints + risks |
+| 计算 | single-step substitution | multi-step / multi-period (all given) | requires choosing a model + discussing assumptions |
 | 编程 | direct implementation | added constraints / optimization | edge cases + complexity analysis + proof |
 
 Type-specific ladder notes:
-- **Calculation**: the harder version changes the *setup* (multi-period, taxes, inflation, embedded options), not just the numbers. Still one correct answer, but partial credit follows steps.
-- **Programming**: the harder version adds constraints (time/memory), adversarial inputs, or a required complexity bound. Provide sample I/O and at least one edge case; say whether pseudocode is accepted.
-- **Proof**: D adds an intermediate lemma; E requires constructing the argument (no given lemma).
+- **Calculation**: the harder version changes the *setup* (multi-period, taxes, inflation, embedded options), not the amount of given data. All rates and conventions must be stated.
+- **Programming**: the harder version adds constraints (time/memory), adversarial inputs, or a required complexity bound. Sample I/O and edge cases are always provided.
+- **Proof**: D adds an intermediate lemma; E requires constructing the argument from the full set of givens.
 
 Marking shifts:
 - D/E add points for **argument quality** and **trade-off justification**, not for more content.
 - Still provide a reference answer, but label it "参考思路，不唯一".
 
-Hard rule: D/E must stay inside the exam scope from Step 0. Difficulty comes from integration and judgment, not from obscure or out-of-scope content.
+**Hard rules:**
+- 题干必须自足：条件、数据、约束齐全；不得删条件、不得制造矛盾、不得用模糊设问。
+- 难度靠：概念联动、推理链长度、跨章整合、评价与决策、易错点（阈值、边界、易混概念）。
+- D/E 仍不得超出考试范围；易错 ≠ 超纲 ≠ 缺条件。
 
 ## Step 4: Dispatch Agents (up to 12 Parallel)
 
