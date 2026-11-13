@@ -5,11 +5,11 @@ description: Use when generating Chinese LaTeX review materials from any course 
 
 # LaTeX Chinese Review Materials Generator (Universal)
 
-> One-click: any course materials → 6--12 PDFs (summary, exercises, 3--5 exams + answers).
+> One-click: any course materials → 6--15 PDFs (summary, exercises, 3--5 exams + answers, optional formula card / study plan / error notebook).
 
 ## Output Files
 
-Generate 2 + 2N files: 2 base files + one paper and one answer file per exam. Default N = 5 (12 files: A--C plus D 提高 and E 挑战); small courses (≤3 chapters) N = 2 (6 files); if the user is time-constrained or asks for fewer, N = 3 (8 files).
+Generate 2 + 2N core files, plus 0–3 optional artifacts. Default N = 5 → 12 core files (12–15 total with artifacts); small courses (≤3 chapters) N = 2 (6 files); time-constrained N = 3 (8 files).
 
 | File | Purpose |
 |------|---------|
