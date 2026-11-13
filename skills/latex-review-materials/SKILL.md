@@ -23,6 +23,23 @@ Generate 2 + 2N files: 2 base files + one paper and one answer file per exam. De
 
 **Review mode (Mode B) adds**: `复盘报告.pdf`, `补弱卷.pdf` + `补弱卷_答案.pdf`, and optionally `知识点补丁.pdf`. See Mode B below.
 
+### Output format (ask first)
+
+Ask: **PDF / DOCX / both** (default PDF).
+
+- **PDF**: `xelatex` — best fidelity, preferred for printing.
+- **DOCX**: write a Markdown mirror (`*.md`) and run `pandoc` — best effort; tcolorbox boxes become blockquotes, complex tables may shift.
+- If `pandoc` is missing: `winget install --id JohnMacFarlane.Pandoc -e` (Windows) or `brew install pandoc` (macOS). If it cannot be installed, fall back to PDF and say so.
+- Never convert DOCX→PDF; always generate from source.
+
+### Optional artifacts
+
+Ask whether to include (default: yes in the last week):
+
+- `考前速查卡.pdf` — one A4 page: formulas, pitfalls, answer templates, top-10 errors.
+- `复习计划.pdf` — 1/3/7-day schedule with spaced repetition.
+- `错题本.pdf` — accumulated wrong questions from review mode.
+
 **Chapter split for N exams** (maximizes coverage, no overlap):
 - A: first third — foundations
 - B: second third — core
@@ -111,12 +128,25 @@ Never start writing on assumptions. If the materials don't answer the questions 
 7. 想要几套卷（默认 5：A–C + D 提高 + E 挑战；时间紧可只要 3 套，或 2 套）。
 8. 答案要多细（只给答案 / 给步骤 / 给评分点 + 易错点）。
 9. 是否需要 OCR 扫描教材、是否需要双语。
+10. 输出格式：PDF / DOCX / 两者（默认 PDF）。
+11. 要不要附加：考前速查卡 / 复习计划 / 错题本（默认考前一周加）。
 
 **Defaults if the user does not answer** (print them on page 1 so the user can correct):
-- 默认 5 套（A–C + D 提高 + E 挑战）；时间紧才降到 3 套；答案给评分点 + 关键步骤；不 OCR；中文。
+- 默认 5 套（A–C + D 提高 + E 挑战）；时间紧才降到 3 套；答案给评分点 + 关键步骤；不 OCR；中文；PDF。
 - 范围 = 所提供材料覆盖的章节；命题依据 = 材料中出现最多的那套，并标注“未确认”。
 
 **How to ask**: paste one compact card (template in `references/exam-blueprint.md §1`), at most 6 questions at a time. If the user says "你看着办", state the defaults and proceed.
+
+### 0.4 Source conflicts
+
+When textbook / PPT / recording / past papers disagree, resolve in this order and record it:
+
+1. 老师在录音或最后一节课的明确说法（最新优先）
+2. 考试通知 / 教学大纲
+3. Step 0 确定的命题依据
+4. 其他材料
+
+Make a conflict table: 知识点 | 说法 A（来源） | 说法 B（来源） | 采用 | 理由。Never silently pick one; if it affects a graded answer, tell the user.
 
 ---
 
@@ -204,6 +234,21 @@ A paper that works for management will fail for 思政 and for engineering. Set 
 - Target score: pass → key points and basics; high score → add comparisons, edge cases, challenge questions.
 - Answer detail: "points only" / "steps" / "rubric + common mistakes" (default: rubric + key steps).
 - Weak chapters: add one extra worked example and one extra question per weak chapter.
+
+### 3.7 Study plan (spaced repetition)
+
+When the exam is within 14 days, generate `复习计划.pdf`:
+
+| 时间 | 内容 |
+|---|---|
+| Day 1 | 红点知识点补丁 + 基础题 |
+| Day 2 | 同知识点练习（变式） |
+| Day 3 | 复习 + 错题重做 |
+| Day 5 | 混合卷（限时） |
+| Day 7 | 错题本 + 综合题 |
+| 考前 1 天 | 速查卡 + 一套限时卷 |
+
+Table columns: 日期 | 时段 | 内容 | 资料页码 | 完成（□）。If <3 days left, collapse to “补丁 + 1 套卷 + 错题本”。
 
 **Per-chapter minimums:**
 - Summary: 150+ lines, 5+ subsections, 1+ comparison table/timeline, [CORE]/[KEY]/[NOTE] labels
@@ -369,6 +414,8 @@ D/E are part of the default 5-set output; drop them (N = 3) when the user is tim
 
 If the host agent has no parallel sub-agents, generate the files sequentially in the same order — the parallel step is an optimization, not a requirement.
 
+**Batching and resume (for 5 sets):** generate in 3 batches — (summary + exercises + A + B), (C + D), (E + 速查卡 + 计划). Keep a `progress.md` with `[x]`/`[ ]` per file; on restart, skip files that exist and are non-empty, and never silently overwrite a good file.
+
 ```
 ## AGENT PROMPT TEMPLATE
 
@@ -393,7 +440,7 @@ Ch N: [TITLE] — MUST cover:
 [... repeat for all chapters ...]
 
 ### Mandatory Rules:
-1-11 [paste the 11 rules from the "Mandatory Rules" section]
+1-14 [paste the 14 rules from the "Mandatory Rules" section]
 
 ### Post-write checklist (run yourself):
 - [ ] `grep -c '\\begin{enumerate}' file.tex` == `grep -c '\\end{enumerate}' file.tex` ?
@@ -417,6 +464,30 @@ python references/quality_check.py *.tex
 ```
 
 If any check FAILS → fix with Edit, re-run check, THEN compile. The checker validates: enumerate balance, required packages (skipped when a `\input` preamble is used), nested `[` and ASCII commas in tcolorbox titles, table floats inside tcolorbox, Chinese in headers, emoji, answer space in exam files, and answers leaked into exam files.
+
+## Step 5.5: Verify answers (before delivery)
+
+Never claim an answer is correct without checking it.
+
+- **Calculation**: recompute with Python/sympy; record `已验算 YYYY-MM-DD` in the answer file.
+- **Programming**: run the sample and at least one edge case; record `已跑样例`.
+- **Proof / essay**: check the logic chain and citations; mark `待人工复核` if you cannot verify.
+- If verification is impossible (no runtime, no data), say so explicitly in the answer file.
+
+## Step 5.6: Exam lint (dedupe + difficulty)
+
+Run:
+
+```bash
+python references/exam_lint.py 模拟卷*.tex
+```
+
+It checks:
+- duplicate stems across papers (similarity > 0.85)
+- item count per paper
+- difficulty tags `% D:easy|medium|hard` and their distribution (target 40/40/20, ±10)
+
+Tag convention: put `% D:easy` (or `medium` / `hard`) on the line before each `\item` in exam files.
 
 ## Step 6: Compile and Verify
 
@@ -502,13 +573,25 @@ Rules:
 - “时间不够”只做限时训练，不加题量。
 - 复盘卷也要留答题空间（§3.5.1）。
 
-### B5. Outputs
+### B5. 错题本 (cross-session)
+
+Maintain `错题本.md` in the course folder:
+
+| 日期 | 来源卷 | 题号 | 知识点 | 错因 | 次数 | 最近一次 |
+|---|---|---|---|---|---|---|
+
+- Append every review; merge rows with the same 知识点 + 错因 (increment 次数).
+- Recurrent rows (次数 ≥2) become red points for the next review.
+- Regenerate `错题本.pdf` on request; the 速查卡 pulls the top 10 by 次数.
+
+### B6. Outputs
 
 - `复盘报告.pdf`：错题表 + 错因分布 + 知识点掌握度 + 下一步建议
 - `补弱卷.pdf` + `补弱卷_答案.pdf`
-- 可选：`知识点补丁.pdf`
+- `错题本.pdf`（累积）
+- 可选：`知识点补丁.pdf`、`考前速查卡.pdf`
 
-## 11 Mandatory Rules (in EVERY agent prompt)
+## 14 Mandatory Rules (in EVERY agent prompt)
 
 ```
 1. \documentclass[12pt,a4paper,fontset=fandol]{ctexart}
@@ -522,6 +605,9 @@ Rules:
 9. \begin{enumerate} count MUST equal \end{enumerate} count — COUNT THEM after writing
 10. Exam files: leave \vspace after every big question (论述 9--12 cm; 计算 8--12 cm; 编程 20--30 行; 案例每小问 3--4 cm); never put 参考答案 inside exam files
 11. Big questions must match the discipline: calculation / proof / diagram / programming / case / material analysis — never all essays
+12. Verify calculation and programming answers before delivery (sympy / sample run); mark 已验算 or 待人工复核 in the answer file
+13. Ask PDF vs DOCX before generating; DOCX is best-effort from a Markdown mirror (never convert PDF→DOCX)
+14. For 5 sets, generate in batches (A–B, C–D, E + artifacts) and keep progress.md for resume
 ```
 
 ## Common Errors (quick reference)
@@ -584,4 +670,7 @@ Read syllabus/Ch0 first. Read Ch1-2 fully to understand course style. For remain
 - `references/course-types.md` — Per-type playbook: 思政 / 工科 / 文科 / 商科 / 投资学·金融 / 计算机 / 法学 / 医学 (question types, marking, answer space, fatal mistakes)
 - `references/exam-blueprint.md` — Exam brief table, answer-space table, case/answer templates, delivery checklist
 - `references/review-mode.md` — 复盘补弱：intake card, diagnosis table, report outline, remedial paper skeleton
+- `references/study-plan.md` — 复习计划 / 间隔重复模板
+- `references/output-formats.md` — PDF vs DOCX pipeline (pandoc, reference.docx, caveats)
+- `references/exam_lint.py` — 跨卷去重 / 题量 / 难度分布检查
 - `references/quality_check.py` — Automated pre-compilation checker

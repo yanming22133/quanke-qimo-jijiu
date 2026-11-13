@@ -39,6 +39,9 @@ ReviewCraft 是一套给 **AI Agent** 用的工作流包（Skill），**不绑�
 | `07_模拟卷C.pdf` + `08_模拟卷C_答案.pdf` | 综合/跨章 |
 | `09_模拟卷D.pdf` + `10_模拟卷D_答案.pdf` | 提高卷（默认包含） |
 | `11_模拟卷E.pdf` + `12_模拟卷E_答案.pdf` | 挑战卷（默认包含） |
+| `13_考前速查卡.pdf` | 一页纸：公式、易错点、答题模板（可选） |
+| `14_复习计划.pdf` | 按剩余天数排的间隔重复计划（可选） |
+| `15_错题本.pdf` | 复盘累积的错题清单（可选） |
 | `NN_课本OCR_考点章节/` | 扫描版教材的文字版（可选） |
 | `_tex源文件/` | 全部 `.tex`，可自行改题重编译 |
 
@@ -146,6 +149,22 @@ A/B/C/D/E 只是**套卷编号**，不是难度等级：
 
 不传卷子也行，直接说“我第 5 章不会”，它按单点补弱出阶梯题。
 
+### 6. 输出格式可选：PDF / DOCX
+
+默认 PDF；要 Word 就走 Markdown + pandoc，标注“best effort”（tcolorbox 变引用块，公式转 Word 公式）。Pandoc 没装会提示安装命令，装不上就回退 PDF。
+
+### 7. 复习计划与速查卡
+
+按剩余天数生成 1/3/7 天间隔重复计划（Day 1 补丁 → Day 3 变式 → Day 7 限时卷）；考前一周出 1 页速查卡（公式、易错点、答题模板、Top 10 错题）。
+
+### 8. 质量闸门
+
+- 计算题用 Python/sympy 复算，答案标“已验算”
+- 编程题跑样例 + 边界，标“已跑样例”
+- 跨卷去重：题干相似度 >0.85 报警
+- 难度分布：easy/medium/hard 目标 40/40/20
+- 5 套卷分 3 批生成，`progress.md` 断点续跑
+
 ---
 
 ## 怎么用
@@ -224,6 +243,9 @@ reviewcraft/
             ├── course-types.md        # 分课程类型打法
             ├── exam-blueprint.md      # 试卷模板 + 留白表 + 交付清单
             ├── review-mode.md         # 复盘补弱：诊断表/报告/补弱卷模板
+            ├── study-plan.md          # 复习计划 / 间隔重复模板
+            ├── output-formats.md      # PDF vs DOCX（pandoc）流程
+            ├── exam_lint.py           # 跨卷去重 / 难度分布检查
             ├── latex-format-rules.md  # LaTeX  preamble 与排版规则
             └── quality_check.py       # 编译前自动检查
 ```
