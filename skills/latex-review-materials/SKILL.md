@@ -130,6 +130,7 @@ Never start writing on assumptions. If the materials don't answer the questions 
 9. 是否需要 OCR 扫描教材、是否需要双语。
 10. 输出格式：PDF / DOCX / 两者（默认 PDF）。
 11. 要不要附加：考前速查卡 / 复习计划 / 错题本（默认考前一周加）。
+12. 资料形态：省墨讲义 / 彩框版 / 双栏速查 / 题目册+答案册（默认省墨讲义）。
 
 **Defaults if the user does not answer** (print them on page 1 so the user can correct):
 - 默认 5 套（A–C + D 提高 + E 挑战）；时间紧才降到 3 套；答案给评分点 + 关键步骤；不 OCR；中文；PDF。
@@ -261,6 +262,19 @@ Table columns: 日期 | 时段 | 内容 | 资料页码 | 完成（□）。If <3
 **Language output**: Match the EXAM language. If English exam → English questions + bilingual explanations. If Chinese exam → all Chinese. Let source materials determine this.
 
 **Terminology alignment**: apply the table in §0.2 — the primary term depends on whether the exam follows the textbook, the PPT, both, or past papers. Put the other name in parentheses on first use and never mix them silently.
+
+## Step 3.4: Layout preset (ask first)
+
+Ask which form of review material the user wants. Default: **省墨讲义**.
+
+| Preset | Best for | Key settings |
+|---|---|---|
+| **省墨讲义** (default) | 打印、通读 | `ctexbook`, `zihao=5`, 1.5cm margins, thin rules, no fills, chapters continuous |
+| **彩框版** | 屏幕阅读、重点多 | `ctexart` 12pt, 2.3cm margins, colored tcolorbox |
+| **双栏速查** | 考前 1–2 天 | 9pt, `multicol` 2 columns, 1.2cm margins |
+| **题目册 + 答案册** | 反复自测 | two booklets, separate page numbering |
+
+Templates: `references/templates/ink-saving.tex`; details and code in `references/layout-presets.md`. Do not mix presets inside one document.
 
 ## Step 3.5: Design the Paper (answer space, cases, page breaks)
 
@@ -594,7 +608,7 @@ Maintain `错题本.md` in the course folder:
 ## 14 Mandatory Rules (in EVERY agent prompt)
 
 ```
-1. \documentclass[12pt,a4paper,fontset=fandol]{ctexart}
+1. Document class follows the chosen preset: default `ctexart` 12pt; 省墨讲义 uses `ctexbook` with `zihao=5`. Always `fontset=fandol` so it compiles without fontconfig.
 2. ZERO emoji — use [CORE][KEY][NOTE][EXAM][TIP] labels
 3. Tables: \medskip\begin{center}\begin{tabular}... — NEVER \begin{table}[h] inside tcolorbox
 4. Headers: ENGLISH ONLY in fancyhdr
@@ -672,5 +686,7 @@ Read syllabus/Ch0 first. Read Ch1-2 fully to understand course style. For remain
 - `references/review-mode.md` — 复盘补弱：intake card, diagnosis table, report outline, remedial paper skeleton
 - `references/study-plan.md` — 复习计划 / 间隔重复模板
 - `references/output-formats.md` — PDF vs DOCX pipeline (pandoc, reference.docx, caveats)
+- `references/layout-presets.md` — 省墨讲义 / 彩框版 / 双栏速查 / 题目册+答案册
+- `references/templates/ink-saving.tex` — 省墨讲义模板（可直接编译）
 - `references/exam_lint.py` — 跨卷去重 / 题量 / 难度分布检查
 - `references/quality_check.py` — Automated pre-compilation checker

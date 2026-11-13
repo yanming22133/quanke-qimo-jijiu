@@ -1,0 +1,97 @@
+% !TeX program = xelatex
+% 省墨讲义模板：单栏、5 号字、1.5cm 页边距、细线框、无彩色填充。
+% 适合打印；内容连续排版，章节不强制换页。
+\documentclass[a4paper,oneside,zihao=5,fontset=fandol]{ctexbook}
+
+% ===== 标题 =====
+\newcommand{\handouttitle}{《课程名称》复习精要}
+\newcommand{\handoutsubtitle}{知识点汇总 \quad 适用：期末复习}
+
+% ===== 版式 =====
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1.5cm,headheight=1cm,footskip=0.8cm]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{multicol}   % 需要双栏速查时使用
+
+\linespread{1.2}
+\setlist{nosep}
+\pagestyle{plain}
+\raggedbottom
+
+% 章节连续排版（省纸）
+\ctexset{chapter/break=\par}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}{0.5em}{}
+
+% 细线重点框：不填色，只画线
+\newtcolorbox{mybox}[1]{
+  enhanced, breakable,
+  colback=white, colframe=black!55,
+  colbacktitle=white, coltitle=black,
+  boxrule=0.3pt, leftrule=2pt, arc=0mm,
+  fonttitle=\bfseries\small, title={#1},
+  left=4pt, right=4pt, top=3pt, bottom=3pt,
+  before skip=6pt, after skip=6pt
+}
+
+\begin{document}
+
+% ===== 首页 =====
+\vspace*{0.8cm}
+\begin{center}
+  {\Huge\bfseries \handouttitle\par}
+  \vspace{0.3cm}
+  {\large \handoutsubtitle\par}
+\end{center}
+\vspace{0.6cm}
+
+\chapter{基础概念}
+
+\begin{mybox}{本章重点}
+用两三句话概括本章必须掌握的概念、公式与易错点。
+\end{mybox}
+
+\section{概念与特征}
+
+先写定义和适用范围，再列关键特征。用 \textbf{粗体} 标出术语或结论。
+
+\begin{itemize}[left=0pt]
+  \item \textbf{定义}：术语的含义与使用场景。
+  \item \textbf{特征}：判断与区分的条件。
+  \item \textbf{例子}：一个简短的应用情境。
+\end{itemize}
+
+\subsection{概念辨析}
+
+对容易混淆的术语，分别记录适用范围、典型例子和判断依据。
+
+\section{步骤与方法}
+
+\begin{enumerate}[left=0pt]
+  \item \textbf{明确对象}：确定问题、范围和已知条件。
+  \item \textbf{选择方法}：说明方法与适用条件。
+  \item \textbf{检查结果}：把结论与题目要求逐项对照。
+\end{enumerate}
+
+\chapter{应用与练习}
+
+\section{典型题型}
+
+先用一句话概括题目要求，再整理答题要点。
+
+\subsection{简答题}
+
+\begin{itemize}[left=0pt]
+  \item \textbf{答题顺序}：定义 → 分点解释 → 例子。
+  \item \textbf{检查项目}：术语准确，每个要点都回应题意。
+\end{itemize}
+
+\end{document}
