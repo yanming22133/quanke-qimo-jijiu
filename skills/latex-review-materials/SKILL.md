@@ -21,6 +21,8 @@ Generate 2 + 2N files: 2 base files + one paper and one answer file per exam. De
 | `模拟卷D.tex` / `_答案.tex` | 提高卷 (default in the 5-set output) |
 | `模拟卷E.tex` / `_答案.tex` | 挑战卷 (default in the 5-set output) |
 
+**Review mode (Mode B) adds**: `复盘报告.pdf`, `补弱卷.pdf` + `补弱卷_答案.pdf`, and optionally `知识点补丁.pdf`. See Mode B below.
+
 **Chapter split for N exams** (maximizes coverage, no overlap):
 - A: first third — foundations
 - B: second third — core
@@ -39,6 +41,7 @@ Each exam uses the format extracted in Step 0. Fallback only if nothing is known
 ## Use when
 
 - User asks to generate "复习资料", "考点总结", "模拟卷", "练习题"
+- User uploads a finished paper / wrong questions / names a weak topic and wants targeted practice ("复盘", "错题", "补弱")
 - User provides course materials (PDF/PPT/DOCX) and wants PDF output
 - Any course type, any language mix (Chinese, English, bilingual)
 
@@ -446,6 +449,65 @@ If compilation fails:
 
 ---
 
+## Mode B: Review & Remediate (复盘补弱)
+
+Use when the student uploads a finished paper, lists wrong questions, or names a weak topic. Goal: **diagnose → map to knowledge points → generate a personalized remedial set**.
+
+### B1. Intake (ask first)
+
+1. **Upload**: 答卷照片 / PDF / 手写答案文本；有标准答案就一起给。
+2. **Scope**: 只复盘这一套，还是指定章节 / 整套资料？
+3. **Target**: 下次考试时间；想要多少题（默认每个错点 2 道变式 + 1 道综合）。
+4. **Privacy**: 提醒先裁掉姓名、学号、班级再上传。
+
+### B2. Diagnose each wrong question
+
+For every wrong or blank question, record:
+
+| 字段 | 说明 |
+|---|---|
+| 题号 / 考点 | 对应知识点汇总里的标签 |
+| 你的答案 / 正确答案 | 没有标答就写“待确认” |
+| 错因 | 见下表七类 |
+| 置信度 | 确定 / 待确认（无标答时） |
+
+| 错因 | 典型表现 | 补法 |
+|---|---|---|
+| 概念不清 | 定义、条件、适用范围混淆 | 知识点补丁 + 基础题 |
+| 方法不会 | 知道考什么，但不知道从哪下手 | 例题拆步骤 + 同型题 |
+| 计算失误 | 思路对，结果/单位错 | 限时计算训练 + 检查清单 |
+| 审题偏差 | 答非所问、漏看条件 | 关键词训练 + 换问法变式 |
+| 步骤缺失 | 结果对但丢步骤分 | 对照评分标准补步骤 |
+| 时间不够 | 会做但没写完 | 分层限时卷，不加量 |
+| 完全空白 | 没学过或放弃 | 从零讲解 + 最小练习 |
+
+**No standard answer**: ask for it, or judge from the textbook and mark "待确认"。Never invent a score.
+
+### B3. Map to knowledge points
+
+Use the same tags as `知识点汇总`. Build a table: 知识点 → 错题数 → 掌握度（红 / 黄 / 绿）。自述薄弱点优先于统计推测。
+
+### B4. Generate the remedial set
+
+Structure:
+
+- **Part A 知识点补丁**：每个红点 1 页（定义 / 公式 / 易错点 / 1 道例题）。
+- **Part B 变式题**：每个红点 2 道（基础 + 变式，换数字 / 情境 / 问法，**不重复原题**）。
+- **Part C 综合题**：1–2 道跨知识点。
+- **答案**：步骤 + 该步对应的错因提醒。
+
+Rules:
+- 不抄原题；变式必须换情境或问法。
+- 难度递进：基础 → 变式 → 综合。
+- “时间不够”只做限时训练，不加题量。
+- 复盘卷也要留答题空间（§3.5.1）。
+
+### B5. Outputs
+
+- `复盘报告.pdf`：错题表 + 错因分布 + 知识点掌握度 + 下一步建议
+- `补弱卷.pdf` + `补弱卷_答案.pdf`
+- 可选：`知识点补丁.pdf`
+
 ## 11 Mandatory Rules (in EVERY agent prompt)
 
 ```
@@ -521,4 +583,5 @@ Read syllabus/Ch0 first. Read Ch1-2 fully to understand course style. For remain
 - `references/latex-format-rules.md` — Full preamble, tcolorbox styles, color definitions, compilation
 - `references/course-types.md` — Per-type playbook: 思政 / 工科 / 文科 / 商科 / 投资学·金融 / 计算机 / 法学 / 医学 (question types, marking, answer space, fatal mistakes)
 - `references/exam-blueprint.md` — Exam brief table, answer-space table, case/answer templates, delivery checklist
+- `references/review-mode.md` — 复盘补弱：intake card, diagnosis table, report outline, remedial paper skeleton
 - `references/quality_check.py` — Automated pre-compilation checker
