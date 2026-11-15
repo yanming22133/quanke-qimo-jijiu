@@ -179,6 +179,7 @@ A/B/C/D/E 只是**套卷编号**，不是难度等级：
 - **题目册 + 答案册**：两本独立文档，方便反复自测
 
 模板在 `references/templates/ink-saving.tex`，说明在 `references/layout-presets.md`。
+图模板在 `references/templates/figures.tex`（时间线/分类树/曲线/损益图/空白答题区）。
 
 ---
 
