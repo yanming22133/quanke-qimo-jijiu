@@ -136,6 +136,11 @@ def check_file(filepath):
             print(f"  WARN: only {vspaces} \\vspace — check that every big question has writing space")
         else:
             print(f"  PASS: answer space present ({vspaces} \\vspace)")
+        if re.search(r'\\drawgrid|\\grid\b', content):
+            print("  FAIL: exam contains grid/graph paper — use blank space only (Step 3.5.1)")
+            EXIT_CODE = 1
+        else:
+            print("  PASS: no grid/graph paper in exam")
         if "参考答案" in content or "评分标准" in content:
             print("  FAIL: exam file contains '参考答案/评分标准' — move answers to the answer file")
             EXIT_CODE = 1

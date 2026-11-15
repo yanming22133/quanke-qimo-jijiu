@@ -324,6 +324,23 @@ Add scratch pages at end of mock exam with:
 ```
 If you need more space, repeat `\newpage\mbox{}` — never use `\drawgrid`, `\grid`, or graph paper. Drawing questions also use blank `\vspace{10cm}`, not a grid.
 
+### 12.1 Diagrams in summaries (default)
+
+Every `知识点汇总` gets 6–15 TikZ figures (5–9 chapters: 6–10; 10+ chapters: 10–15). Put figure macros in a separate `figures.tex` and `\input{figures}` after the preamble:
+
+```latex
+\newcommand{\figYieldCurves}{%
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[axis] (0,0)--(6,0) node[right,font=\scriptsize]{期限};
+\draw[axis] (0,0)--(0,4) node[above,font=\scriptsize]{利率};
+\draw[mainblue,thick] plot[smooth] coordinates {(0.4,0.7)(2,1.2)(4,2.4)(5.6,3.4)};
+\end{tikzpicture}
+\end{center}}
+```
+
+Rules: caption in Chinese; axis labels and units; no decorative clip-art; text and figure must agree. Answer files reuse the same macros for drawing-question standard answers. Never put a grid in the exam paper or scratch page.
+
 ## 13. Compilation
 
 ```bash
@@ -368,6 +385,8 @@ grep -c '^!' file.log
 \tcbuselibrary{skins,breakable}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,decorations.pathreplacing,patterns,backgrounds}
 \usepackage{array,multirow,booktabs}
 \usepackage{enumitem}
 \usepackage[normalem]{ulem}
