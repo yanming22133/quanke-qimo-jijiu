@@ -1,0 +1,80 @@
+% Generic TikZ patterns for review summaries.
+% Copy the macros you need into your own figures.tex and \input{figures} after the preamble.
+% Requires: \usepackage{tikz}
+% \usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,decorations.pathreplacing,patterns,backgrounds}
+
+% ---- 1. Timeline ----------------------------------------------------------
+% Usage: \figTimeline
+\newcommand{\figTimeline}{%
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[-{Stealth[length=2.4mm]},thick,draw=black!75] (0.2,0)--(12.6,0);
+\foreach \x/\name/\year in {1.2/Stage 1/1900, 3.8/Stage 2/1950, 6.4/Stage 3/1970, 9.0/Stage 4/2000, 11.4/Stage 5/2020}{
+  \fill[blue!60!black] (\x,0) circle (2.2pt);
+  \node[above=0.22cm,align=center,font=\scriptsize] at (\x,0) {\name\\\year};
+}
+\end{tikzpicture}
+\end{center}}
+
+% ---- 2. Classification tree ----------------------------------------------
+% Usage: \figTree
+\newcommand{\figTree}{%
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  box/.style={draw=blue!60!black,fill=blue!5,rounded corners=2pt,align=center,font=\small,inner sep=4pt},
+  arr/.style={-{Stealth[length=2mm]},thick,draw=black!55}]
+\node[box] (root) at (0,0) {Root concept};
+\node[box,text width=2.2cm] (a) at (-4.8,-1.6) {Branch A};
+\node[box,text width=2.2cm] (b) at (-1.6,-1.6) {Branch B};
+\node[box,text width=2.2cm] (c) at (1.6,-1.6) {Branch C};
+\node[box,text width=2.2cm] (d) at (4.8,-1.6) {Branch D};
+\foreach \n in {a,b,c,d}{\draw[arr] (root)--(\n);}
+\node[font=\scriptsize,text width=2.4cm,align=center] at (-4.8,-2.9) {one-line example};
+\node[font=\scriptsize,text width=2.4cm,align=center] at (-1.6,-2.9) {one-line example};
+\node[font=\scriptsize,text width=2.4cm,align=center] at (1.6,-2.9) {one-line example};
+\node[font=\scriptsize,text width=2.4cm,align=center] at (4.8,-2.9) {one-line example};
+\end{tikzpicture}
+\end{center}}
+
+% ---- 3. Axes + curves -----------------------------------------------------
+% Usage: \figCurves
+\newcommand{\figCurves}{%
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[-{Stealth[length=2.4mm]},thick] (0,0)--(6.2,0) node[right,font=\scriptsize]{x};
+\draw[-{Stealth[length=2.4mm]},thick] (0,0)--(0,4.0) node[above,font=\scriptsize]{y};
+\draw[blue!60!black,thick] plot[smooth] coordinates {(0.4,0.7)(1.6,1.0)(3.2,1.9)(4.8,2.8)(5.7,3.4)};
+\draw[green!50!black,thick,dashed] plot[smooth] coordinates {(0.4,1.8)(1.6,1.8)(3.2,1.8)(4.8,1.8)(5.7,1.8)};
+\draw[red!70!black,thick] plot[smooth] coordinates {(0.4,3.3)(1.6,2.9)(3.2,2.1)(4.8,1.4)(5.7,1.1)};
+\node[font=\scriptsize,right] at (5.8,3.4) {up};
+\node[font=\scriptsize,right] at (5.8,1.8) {flat};
+\node[font=\scriptsize,right] at (5.8,1.1) {down};
+\end{tikzpicture}
+\end{center}}
+
+% ---- 4. Option payoff -----------------------------------------------------
+% Usage: \figPayoff
+\newcommand{\figPayoff}{%
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\begin{scope}
+\draw[-{Stealth[length=2.2mm]},thick] (0,0)--(4.8,0) node[right,font=\scriptsize]{$S_T$};
+\draw[-{Stealth[length=2.2mm]},thick] (0,0)--(0,3.2) node[above,font=\scriptsize]{payoff};
+\draw[blue!60!black,thick] (0,0)--(2.4,0)--(4.4,2.0);
+\draw[dashed] (2.4,0)--(2.4,-0.15) node[below,font=\scriptsize]{$K$};
+\node[font=\scriptsize,align=center] at (2.4,2.8) {call buyer};
+\end{scope}
+\begin{scope}[xshift=7.2cm]
+\draw[-{Stealth[length=2.2mm]},thick] (0,0)--(4.8,0) node[right,font=\scriptsize]{$S_T$};
+\draw[-{Stealth[length=2.2mm]},thick] (0,0)--(0,3.2) node[above,font=\scriptsize]{payoff};
+\draw[red!70!black,thick] (0,2.0)--(2.4,0)--(4.4,0);
+\draw[dashed] (2.4,0)--(2.4,-0.15) node[below,font=\scriptsize]{$K$};
+\node[font=\scriptsize,align=center] at (2.4,2.8) {put buyer};
+\end{scope}
+\end{tikzpicture}
+\end{center}}
+
+% ---- 5. Blank answer area -------------------------------------------------
+% NEVER use a grid in the exam paper. Use blank space:
+\newcommand{\blankanswer}[1]{\vspace{#1}}
+% Scratch page: \newpage\section*{草稿区}\mbox{}

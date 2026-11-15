@@ -273,6 +273,7 @@ Every `知识点汇总` must include the diagrams needed to understand the mater
 - Every figure needs a Chinese caption, axis labels and units, and a source note if data-based. No decorative clip-art; no figure that merely repeats a table.
 - Check that text and figure agree (e.g. sign of a slope, direction of an arrow, label of a curve).
 - Record the figure inventory in `00_说明.md` and tick each item after compilation.
+- Template with 5 reusable patterns (timeline, tree, curves, payoff, blank answer): `references/templates/figures.tex`.
 
 **Exam papers**: a drawing question gets a **blank** answer area (no grid, no graph paper). The answer file must contain the standard answer figure.
 
@@ -723,5 +724,6 @@ Read syllabus/Ch0 first. Read Ch1-2 fully to understand course style. For remain
 - `references/output-formats.md` — PDF vs DOCX pipeline (pandoc, reference.docx, caveats)
 - `references/layout-presets.md` — 省墨讲义 / 彩框版 / 双栏速查 / 题目册+答案册
 - `references/templates/ink-saving.tex` — 省墨讲义模板（可直接编译）
+- `references/templates/figures.tex` — TikZ 图模板：时间线/分类树/曲线/损益图/空白答题区
 - `references/exam_lint.py` — 跨卷去重 / 题量 / 难度分布检查
 - `references/quality_check.py` — Automated pre-compilation checker
