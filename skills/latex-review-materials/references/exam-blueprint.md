@@ -56,10 +56,13 @@ Copy this card into the chat when the materials do not answer these questions. A
 | 简答 10 分 | 3--4 cm | `\vspace{3.2cm}` |
 | 计算 | 8--12 cm | `\vspace{10cm}` |
 | 证明 | 10--12 cm | `\vspace{11cm}` |
-| 画图/设计 | 半页（坐标/图框） | `\vspace{12cm}` |
+| 画图/设计 | 半页空白（不要网格；需要坐标时只画坐标轴） | `\vspace{10cm}` |
 | 编程 | 20--30 行 + 复杂度 | `\vspace{14cm}` |
 | 论述 25 分 | 9--12 cm | `\vspace{10cm}` |
 | 案例 30 分（3 小问） | 每问 3--4 cm | `\vspace{3.2cm}` ×3 |
+
+- 草稿区：`\newpage\section*{草稿区}\mbox{}`，空白页，不要方格/横线。
+- 画图题：答题区空白，答案册必须给标准图（TikZ），不能只写文字。
 
 ## 4. Case question template
 
@@ -160,6 +163,9 @@ Answer file: 公式 30% / 代入 30% / 结果 30% / 单位与结论 10%。
 ## 9. Delivery checklist
 
 - [ ] 每道大题后有 `\vspace`（论述/计算/编程/案例），且大小与题型匹配
+- [ ] 卷面无方格/坐标纸；画图题与草稿区都是空白
+- [ ] 答案册：每题选择题有“正确项 + 三个干扰项为什么错”的详解
+- [ ] 答案册：每道画图题有标准答案图，不是只有文字
 - [ ] 大题板块各自 `\newpage` 起页，案例框与问题不分页
 - [ ] 卷面无“参考答案/评分标准”字样
 - [ ] 答案文件逐问给分点，而非整段范文

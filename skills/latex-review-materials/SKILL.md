@@ -13,9 +13,9 @@ Generate 2 + 2N core files, plus 0–3 optional artifacts. Default N = 5 → 12 
 
 | File | Purpose |
 |------|---------|
-| `知识点汇总.tex` | Per-chapter detailed review notes |
+| `知识点汇总.tex` | Per-chapter detailed review notes, with 6--15 TikZ diagrams by default |
 | `章节练习.tex` | Exercises with answers inline in notebox |
-| `模拟卷A.tex` / `_答案.tex` | Foundations — questions only / solutions with rubrics |
+| `模拟卷A.tex` / `_答案.tex` | Foundations — questions only / full solutions: MC explanations for all options, rubrics, standard figures for drawing questions |
 | `模拟卷B.tex` / `_答案.tex` | Core chapters |
 | `模拟卷C.tex` / `_答案.tex` | Synthesis across chapters |
 | `模拟卷D.tex` / `_答案.tex` | 提高卷 (default in the 5-set output) |
@@ -216,7 +216,7 @@ A paper that works for management will fail for 思政 and for engineering. Set 
 
 **Type-specific rules:**
 
-- **Engineering**: provide a formula sheet / constants table at the front; require units in answers; leave grid space for graphs; state whether calculators are allowed.
+- **Engineering**: provide a formula sheet / constants table at the front; require units in answers; leave blank space for graphs (axes only if needed; no grid); state whether calculators are allowed.
 - **Humanities**: the answer file gives "要点 + 可接受的其他观点", not a single model answer; quote primary texts where the course does.
 - **Ideological**: every answer must anchor to the textbook/official document wording; add a "表述对照" box (口语说法 → 规范说法); never invent policy quotes; check the latest 会议精神/时政 within 12 months; flag any uncertain quote as "以教材原文为准".
 - **Quantitative**: state assumptions and significance level; answers show the full derivation chain.
@@ -263,6 +263,19 @@ Table columns: 日期 | 时段 | 内容 | 资料页码 | 完成（□）。If <3
 
 **Terminology alignment**: apply the table in §0.2 — the primary term depends on whether the exam follows the textbook, the PPT, both, or past papers. Put the other name in parentheses on first use and never mix them silently.
 
+## Step 3.3: Diagrams in the summary (default, no need to ask)
+
+Every `知识点汇总` must include the diagrams needed to understand the material — do not wait for the user to ask. Plan a **figure inventory** before writing:
+
+- 5--9 chapters: 6--10 figures; 10+ chapters: 10--15 figures.
+- At least one figure per major mechanism: flow, classification tree, timeline, curve, payoff diagram, balance-sheet map, decision tree.
+- Prefer **TikZ** (vector, compiles with `xelatex`, no external files). Use SVG/PNG only when TikZ cannot express it; convert SVG to PDF/PNG before `\includegraphics` (xelatex cannot embed raw SVG reliably).
+- Every figure needs a Chinese caption, axis labels and units, and a source note if data-based. No decorative clip-art; no figure that merely repeats a table.
+- Check that text and figure agree (e.g. sign of a slope, direction of an arrow, label of a curve).
+- Record the figure inventory in `00_说明.md` and tick each item after compilation.
+
+**Exam papers**: a drawing question gets a **blank** answer area (no grid, no graph paper). The answer file must contain the standard answer figure.
+
 ## Step 3.4: Layout preset (ask first)
 
 Ask which form of review material the user wants. Default: **省墨讲义**.
@@ -290,15 +303,16 @@ A mock exam without writing space is a question list, not an exam. Every questio
 | 简答 (10 pts) | 3--4 cm | `\vspace{3.2cm}` |
 | 计算 | 8--12 cm | `\vspace{10cm}` |
 | 证明 / 推导 | 10--12 cm | `\vspace{11cm}` |
-| 画图 / 设计 | half a page with grid or frame | `\vspace{12cm}` + grid |
+| 画图 / 设计 | half a page, blank (no grid) | `\vspace{10cm}` |
 | 编程 | 20--30 lines + complexity note | `\vspace{14cm}` |
 | 论述 (25 pts) | 9--12 cm, or a full page | `\vspace{10cm}` |
 | 案例分析 (30 pts, 3 小问) | 3--4 cm after EACH sub-question | `\vspace{3.2cm}` ×3 |
 
 Rules:
 - Put `\vspace{...}` immediately after the sub-question it belongs to, never after the section heading.
+- **Never use graph paper / grid / dot grid for answer areas or scratch pages.** Blank space only. If a question explicitly needs coordinate axes, draw axes and labels only, not a full grid.
 - If the paper would overflow, insert `\newpage` before the next big question instead of shrinking the space.
-- End every paper with a scratch area: `\newpage\section*{草稿区}\mbox{}\newpage\mbox{}\newpage`.
+- End every paper with a blank scratch area: `\newpage\section*{草稿区}\mbox{}` (no grid, no lines).
 - Verify: every big-question sub-question (论述/计算/编程/案例) has a following `\vspace` in the source (the quality checker enforces at least 3 per exam file).
 - Exam files must stand alone: no "见教材第 X 页" / "见课件"; every condition, number and case fact is printed in the paper.
 
@@ -323,7 +337,7 @@ A paper's big questions must match the discipline. Pick from these six; a paper 
 #### C. Diagram / design (electronics, mechanical, civil, networks)
 
 - Structure: 给定条件 → 画图/设计 → 标注 → 说明.
-- Space: half a page with grid or a blank frame (never a 3 cm strip).
+- Space: half a page blank (no grid; axes only if the question requires them).
 - Rubric: topology 40%, parameters/labels 30%, standard compliance 30%.
 - Provide the axes, units and required symbols; state whether drafts are allowed.
 
@@ -430,6 +444,13 @@ If the host agent has no parallel sub-agents, generate the files sequentially in
 
 **Batching and resume (for 5 sets):** generate in 3 batches — (summary + exercises + A + B), (C + D), (E + 速查卡 + 计划). Keep a `progress.md` with `[x]`/`[ ]` per file; on restart, skip files that exist and are non-empty, and never silently overwrite a good file.
 
+**Answer files are not just answer keys.** Every `模拟卷*_答案.tex` must contain:
+- a detailed explanation for **every** multiple-choice question: correct option + why the other three are wrong;
+- a standard answer **figure** for every drawing question (reuse the summary's TikZ macro or draw a new one);
+- step-by-step calculation, rubric, and common-error notes.
+
+**Exam files must not contain grids.** Drawing questions and the scratch area use blank space only.
+
 ```
 ## AGENT PROMPT TEMPLATE
 
@@ -441,6 +462,13 @@ Exam language: [EN/CN/BILINGUAL]
 
 ### Preamble:
 Use `references/latex-format-rules.md §15` verbatim, either inline or as `\input{preamble.tex}` (keep it in the same folder).
+
+### FIGURES (summary files only):
+Plan [N] figures before writing:
+- Fig 1: [mechanism] — type: [flow/tree/timeline/curve/payoff/map]
+- Fig 2: ...
+Embed with TikZ; every figure needs a Chinese caption, axis labels/units, and a source note.
+For answer files: include the standard figure for every drawing question.
 
 ### CHAPTER-BY-CHAPTER CONTENT:
 
@@ -454,14 +482,18 @@ Ch N: [TITLE] — MUST cover:
 [... repeat for all chapters ...]
 
 ### Mandatory Rules:
-1-14 [paste the 14 rules from the "Mandatory Rules" section]
+1-17 [paste the 17 rules from the "Mandatory Rules" section]
 
 ### Post-write checklist (run yourself):
 - [ ] `grep -c '\\begin{enumerate}' file.tex` == `grep -c '\\end{enumerate}' file.tex` ?
 - [ ] `ulem` present in the file or in the `\input` preamble?
 - [ ] `grep -P '[\\x{1F300}-\\x{1F9FF}]' file.tex` returns empty?
 - [ ] All tcolorbox titles are English or short Chinese, with no `[` and no ASCII comma inside?
+- [ ] (summary) figure inventory complete, each figure referenced in the text?
 - [ ] (exam files) every big-question sub-question (论述/计算/编程/案例) followed by `\vspace`?
+- [ ] (exam files) no `grid`, `drawgrid`, or graph paper anywhere; scratch page is blank?
+- [ ] (answer files) every MC question has a detailed explanation of all four options?
+- [ ] (answer files) every drawing question has a standard answer figure?
 - [ ] Big questions match the discipline (calculation / proof / diagram / programming / case / material)?
 - [ ] No 参考答案/评分标准 in exam files?
 - [ ] Format matches Step 0 (not the 20+10+10+5 fallback)?
@@ -605,7 +637,7 @@ Maintain `错题本.md` in the course folder:
 - `错题本.pdf`（累积）
 - 可选：`知识点补丁.pdf`、`考前速查卡.pdf`
 
-## 14 Mandatory Rules (in EVERY agent prompt)
+## 17 Mandatory Rules (in EVERY agent prompt)
 
 ```
 1. Document class follows the chosen preset: default `ctexart` 12pt; 省墨讲义 uses `ctexbook` with `zihao=5`. Always `fontset=fandol` so it compiles without fontconfig.
@@ -617,11 +649,14 @@ Maintain `错题本.md` in the course folder:
 7. tcolorbox titles: English or SHORT Chinese. NEVER put `[` or an ASCII comma inside the optional title
 8. \uline{} → MUST have \usepackage[normalem]{ulem} in preamble
 9. \begin{enumerate} count MUST equal \end{enumerate} count — COUNT THEM after writing
-10. Exam files: leave \vspace after every big question (论述 9--12 cm; 计算 8--12 cm; 编程 20--30 行; 案例每小问 3--4 cm); never put 参考答案 inside exam files
+10. Exam files: leave \vspace after every big question (论述 9--12 cm; 计算 8--12 cm; 编程 20--30 行; 画图 10--12 cm blank; 案例每小问 3--4 cm); never put 参考答案 inside exam files
 11. Big questions must match the discipline: calculation / proof / diagram / programming / case / material analysis — never all essays
 12. Verify calculation and programming answers before delivery (sympy / sample run); mark 已验算 or 待人工复核 in the answer file
 13. Ask PDF vs DOCX before generating; DOCX is best-effort from a Markdown mirror (never convert PDF→DOCX)
 14. For 5 sets, generate in batches (A–B, C–D, E + artifacts) and keep progress.md for resume
+15. 知识点汇总 MUST include the necessary diagrams by default: 6--10 for 5--9 chapters, 10--15 for 10+ chapters; plan a figure inventory, use TikZ, caption every figure, and never wait for the user to ask
+16. NEVER use grid / graph paper / dot grid in exam answer areas or scratch pages. Drawing questions and 草稿区 are blank space only; if axes are truly required, draw axes and labels, not a full grid
+17. Answer files MUST include: (a) a detailed explanation for every multiple-choice option (correct + why the other three are wrong); (b) a standard answer figure for every drawing question; (c) step-by-step calculation and rubric
 ```
 
 ## Common Errors (quick reference)
@@ -657,7 +692,7 @@ Maintain `错题本.md` in the course folder:
 | Assuming an exam format when no intel exists | Ask the user for format + scope; state assumptions on page 1 |
 | Using the humanities template for 思政 | Use the IDEOLOGICAL template: official wording + 踩点给分 (§2.1, course-types.md) |
 | 思政 answers written in colloquial wording | Add a 表述对照表 (口语 → 规范) |
-| Engineering paper without formula sheet / graph grid | Add them per course-types.md §2 |
+| Engineering paper without formula sheet / blank graph space | Add them per course-types.md §2 |
 | Humanities answer file with one "model answer" | Give 要点 + acceptable alternative views |
 | Generating 4 PDFs for a 3-exam course | 2 base + 2 per exam = 8 files |
 | Generic 20+10+10+5 format for every course | Extract real format in Step 0 first |

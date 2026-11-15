@@ -320,8 +320,9 @@ Add scratch pages at end of mock exam with:
 ```latex
 \newpage
 \section*{Scratch Area / 草稿区}
-\mbox{}\newpage\mbox{}\newpage\mbox{}\newpage  % repeats for N blank pages
+\mbox{}   % ONE blank page; no grid, no lines
 ```
+If you need more space, repeat `\newpage\mbox{}` — never use `\drawgrid`, `\grid`, or graph paper. Drawing questions also use blank `\vspace{10cm}`, not a grid.
 
 ## 13. Compilation
 
