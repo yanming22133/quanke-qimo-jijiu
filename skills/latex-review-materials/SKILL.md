@@ -1,6 +1,6 @@
 ---
 name: latex-review-materials
-description: Use when generating Chinese LaTeX review materials from any course content (PDFs, PPTs, DOCX, lecture recordings). Extracts the real exam format, scope and emphasis first, then builds chapter summaries, exercises, and 3-5 mock papers with separate answer files, scoring rubrics, answer space for writing, and six big-question types (calculation, proof, diagram, programming, case, material analysis). Includes per-type playbooks for STEM, humanities, ideology/politics, management, law and medicine.
+description: Use when generating Chinese LaTeX review materials from any course content (PDFs, PPTs, DOCX, lecture recordings) or planning the final days before an exam. Extracts the real exam format, scope and emphasis first, then builds chapter summaries, exercises, and 3-5 mock papers with separate answer files, scoring rubrics, answer space for writing, and six big-question types (calculation, proof, diagram, programming, case, material analysis). Includes countdown study-plan generation from the exam date (day-by-day blocks, spaced review, red/yellow/green topic weighting, 14/10/7/5/3/2/1-day skeletons) and per-type playbooks for STEM, humanities, ideology/politics, management, law and medicine.
 ---
 
 # LaTeX Chinese Review Materials Generator (Universal)
@@ -37,7 +37,7 @@ Ask: **PDF / DOCX / both** (default PDF).
 Ask whether to include (default: yes in the last week):
 
 - `考前速查卡.pdf` — one A4 page: formulas, pitfalls, answer templates, top-10 errors.
-- `复习计划.pdf` — 1/3/7-day schedule with spaced repetition.
+- `复习计划.pdf` — countdown plan from the real exam date (see §3.7).
 - `错题本.pdf` — accumulated wrong questions from review mode.
 
 **Chapter split for N exams** (maximizes coverage, no overlap):
@@ -58,6 +58,7 @@ Each exam uses the format extracted in Step 0. Fallback only if nothing is known
 ## Use when
 
 - User asks to generate "复习资料", "考点总结", "模拟卷", "练习题"
+- User asks "还有 N 天考试，怎么排复习计划" / gives an exam date and daily hours
 - User uploads a finished paper / wrong questions / names a weak topic and wants targeted practice ("复盘", "错题", "补弱")
 - User provides course materials (PDF/PPT/DOCX) and wants PDF output
 - Any course type, any language mix (Chinese, English, bilingual)
@@ -236,20 +237,36 @@ A paper that works for management will fail for 思政 and for engineering. Set 
 - Answer detail: "points only" / "steps" / "rubric + common mistakes" (default: rubric + key steps).
 - Weak chapters: add one extra worked example and one extra question per weak chapter.
 
-### 3.7 Study plan (spaced repetition)
+### 3.7 Countdown study plan (exam within 14 days)
 
-When the exam is within 14 days, generate `复习计划.pdf`:
+Generate a **day-by-day plan from the real exam date**, not a generic 1/3/7-day template.
 
-| 时间 | 内容 |
-|---|---|
-| Day 1 | 红点知识点补丁 + 基础题 |
-| Day 2 | 同知识点练习（变式） |
-| Day 3 | 复习 + 错题重做 |
-| Day 5 | 混合卷（限时） |
-| Day 7 | 错题本 + 综合题 |
-| 考前 1 天 | 速查卡 + 一套限时卷 |
+**Inputs**: `exam_date`, `hours_per_day`, `target_score`, and a topic list with `weight` (1–5), `level` (`red` / `yellow` / `green`), and `materials` (file + chapter/question number).
 
-Table columns: 日期 | 时段 | 内容 | 资料页码 | 完成（□）。If <3 days left, collapse to “补丁 + 1 套卷 + 错题本”。
+**Run**:
+
+```powershell
+python references/make_plan.py --input plan.json --out 复习计划
+xelatex 复习计划.tex
+xelatex 复习计划.tex
+```
+
+**Outputs**: `复习计划.pdf` (printable), `复习计划.md` (checklist), `plan.json` (normalized inputs + computed schedule, for re-planning).
+
+The planner:
+- computes `days_left`; the last day before the exam is **review-only** (no new chapters);
+- weights topics by `weight × level multiplier` (red 1.6 / yellow 1.2 / green 0.7);
+- allocates up to 3 blocks/day (AM / PM / EVE) with a 0.85 time buffer;
+- inserts spaced review at D+1 / D+3 / D+7;
+- schedules a timed mock on the last study day when there are ≥2 study days;
+- collapses to a 1-day emergency sheet when `days_left <= 1`;
+- supports re-planning: change the date or topic weights and rerun.
+
+Full algorithm, 14/10/7/5/3/2/1-day skeletons, re-planning rules, and anti-patterns: `references/study-plan.md`.
+
+### 3.8 If the user asks “还有 N 天，怎么排”
+
+Do **not** answer with a generic table. Ask for (or infer) four numbers: exam date, hours/day, target score, and the 2–4 weakest topics. Then generate the plan with the script and compile it. If the exam is tomorrow, skip the multi-day plan and produce the “急救单” only.
 
 **Per-chapter minimums:**
 - Summary: 150+ lines, 5+ subsections, 1+ comparison table/timeline, [CORE]/[KEY]/[NOTE] labels
@@ -720,7 +737,9 @@ Read syllabus/Ch0 first. Read Ch1-2 fully to understand course style. For remain
 - `references/course-types.md` — Per-type playbook: 思政 / 工科 / 文科 / 商科 / 投资学·金融 / 计算机 / 法学 / 医学 (question types, marking, answer space, fatal mistakes)
 - `references/exam-blueprint.md` — Exam brief table, answer-space table, case/answer templates, delivery checklist
 - `references/review-mode.md` — 复盘补弱：intake card, diagnosis table, report outline, remedial paper skeleton
-- `references/study-plan.md` — 复习计划 / 间隔重复模板
+- `references/study-plan.md` — 倒计时复习计划：输入、加权算法、14/10/7/5/3/2/1 天骨架、重排规则、反模式
+- `references/make_plan.py` — 生成 `复习计划.md/.tex/.plan.json` 的脚本（按考试日期、每天小时、红黄绿知识点）
+- `references/templates/plan.example.json` — 计划输入模板（可直接改课程/日期/知识点）
 - `references/output-formats.md` — PDF vs DOCX pipeline (pandoc, reference.docx, caveats)
 - `references/layout-presets.md` — 省墨讲义 / 彩框版 / 双栏速查 / 题目册+答案册
 - `references/templates/ink-saving.tex` — 省墨讲义模板（可直接编译）

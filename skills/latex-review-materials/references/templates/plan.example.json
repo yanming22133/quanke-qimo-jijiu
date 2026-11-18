@@ -1,0 +1,37 @@
+{
+  "course": "课程名称",
+  "exam_date": "2026-06-20",
+  "hours_per_day": 6,
+  "target_score": 85,
+  "topics": [
+    {
+      "name": "知识点 A（最高频）",
+      "weight": 5,
+      "level": "red",
+      "type": "calc",
+      "materials": "知识点汇总 ch1；章节练习 1.2；模拟卷 A 综合题"
+    },
+    {
+      "name": "知识点 B",
+      "weight": 5,
+      "level": "red",
+      "type": "calc",
+      "materials": "知识点汇总 ch2；模拟卷 B 综合题"
+    },
+    {
+      "name": "知识点 C",
+      "weight": 4,
+      "level": "yellow",
+      "type": "concept",
+      "materials": "知识点汇总 ch3；章节练习 3.1"
+    },
+    {
+      "name": "知识点 D（低频，只进速查）",
+      "weight": 2,
+      "level": "green",
+      "type": "concept",
+      "materials": "知识点汇总 ch4 前两节"
+    }
+  ],
+  "fixed_events": []
+}
