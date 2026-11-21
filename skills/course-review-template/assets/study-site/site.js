@@ -2,13 +2,103 @@
 const units = [
   {
     id: '1',
-    badge: '第 1 章',
-    title: '第一章 示例章节',
+    badge: '智库单栏',
+    title: '① 现代财经智库风（Editorial）',
     file: 'unit/1.html',
     icon: '01',
-    stars: '★★★★★ 核心重点',
+    stars: '★★★★★ 默认卡片',
     core: true,
-    desc: '演示 Markdown 模板的分栏、星级卡片、列表、高亮、表格、Mermaid 流程图、单题自测与默写模式。'
+    desc: '经典顶部渐变大横幅 + 单栏左彩条星级卡片 + 暖象牙纸面，适合经管/金融/法学。'
+  },
+  {
+    id: 'academic-book',
+    badge: '专著讲义',
+    title: '② 学术专著讲义风（Academic Book）',
+    file: 'unit/theme-academic-book.html',
+    icon: '02',
+    stars: '★★★★★ 三线表+双栏',
+    core: false,
+    desc: '双细线居中扉页头 + 书签下划线分栏 + 学术三线表 + 宽屏双栏列表 + 全衬线排版。'
+  },
+  {
+    id: 'bento-tech',
+    badge: 'Bento看板',
+    title: '③ 极简 Bento 科技看板风（Bento Tech）',
+    file: 'unit/theme-bento-tech.html',
+    icon: '03',
+    stars: '★★★★ 多列便当网格',
+    core: false,
+    desc: '圆角悬浮顶栏 + 胶囊分段控制器 + 宽屏双列 Bento 网格 + 顶彩条卡片与等宽方块编号。'
+  },
+  {
+    id: 'notion-minimal',
+    badge: '无框笔记',
+    title: '④ 极简 Notion 笔记流风（Notion Minimal）',
+    file: 'unit/theme-notion-minimal.html',
+    icon: '04',
+    stars: '★★★★ 纯白文档流',
+    core: false,
+    desc: '彻底去除外框卡片，780px 黄金列宽纯白文档流 + 手账荧光笔划重点 + 极简文字导航。'
+  },
+  {
+    id: 'night-terminal',
+    badge: '暗夜仪表盘',
+    title: '⑤ 暗夜终端专注风（Night Terminal）',
+    file: 'unit/theme-night-terminal.html',
+    icon: '05',
+    stars: '★★★★★ 深夜护眼',
+    core: true,
+    desc: '深海暗色背景 + 胶囊发光导航 + 霓虹光晕暗色玻璃卡片 + 终端风代码块与护眼配色。'
+  },
+  {
+    id: 'swiss-poster',
+    badge: '瑞士海报',
+    title: '⑥ 瑞士国际主义海报风（Swiss Poster）',
+    file: 'unit/theme-swiss-poster.html',
+    icon: '06',
+    stars: '★★★★★ 红黑硬网格',
+    core: true,
+    desc: '包豪斯零圆角 2px 纯黑结构网格 + 瑞士红黑撞色块 + 超粗标题与反白条形小标。'
+  },
+  {
+    id: 'cornell-notes',
+    badge: '康奈尔笔记',
+    title: '⑦ 康奈尔活页笔记风（Cornell Notes）',
+    file: 'unit/theme-cornell-notes.html',
+    icon: '07',
+    stars: '★★★★★ 双区活页本',
+    core: true,
+    desc: '方格纸底纹 + 红色装订双竖线 + 宽屏左线索区(230px)/右笔记正文区真实康奈尔结构。'
+  },
+  {
+    id: 'newspaper-broadsheet',
+    badge: '财经大报',
+    title: '⑧ 经典财经大报风（Broadsheet）',
+    file: 'unit/theme-newspaper-broadsheet.html',
+    icon: '08',
+    stars: '★★★★ FT鲑鱼粉报刊',
+    core: false,
+    desc: 'FT 经典鲑鱼粉暖报纸底色 + 刊头双粗细线 + 无阴影社论分割版面 + 首字下沉排版。'
+  },
+  {
+    id: 'neobrutalism',
+    badge: '新粗野卡牌',
+    title: '⑨ 新粗野主义卡牌风（Neo-Brutalism）',
+    file: 'unit/theme-neobrutalism.html',
+    icon: '09',
+    stars: '★★★★★ 潮酷硬投影',
+    core: true,
+    desc: '点阵底纹 + 2.5px 粗黑框 + 6px 实心偏移硬投影 + 柠檬黄/珊瑚粉/电子青弹跳撞色卡牌。'
+  },
+  {
+    id: 'chinese-ink',
+    badge: '宋韵水墨',
+    title: '⑩ 东方宋韵水墨书院风（Chinese Ink）',
+    file: 'unit/theme-chinese-ink.html',
+    icon: '10',
+    stars: '★★★★ 宣纸朱砂印',
+    core: false,
+    desc: '宣纸留白渐变 + 朱砂方印星标 + 双细内框书院卡片 + 竹青浓墨全宋体典雅排版。'
   }
 ];
 

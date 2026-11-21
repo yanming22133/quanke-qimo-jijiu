@@ -15,7 +15,18 @@ description: 使用配套 Markdown 驱动静态网站模板，将课程资料制
    ```bash
    python "<skill_dir>/scripts/build_unit.py" "<site_dir>/unit"
    ```
-4. **定制配色与离线保障**：如需换色，同步调整 `index.css` 与 `unit.css` 顶部的 `--theme`、`--theme-dark`、`--gold`、`--red`、`--green` 变量。`header` 与 `.nav-bar-wrap` 默认不吸顶（非 sticky），保障手机端阅读视野。全部功能（含 Mermaid 流程图、`🧠 默写模式`、进度保存）均 100% 本地离线可用。
+4. **内置 10 套差异化布局与创意排版模板**：`assets/study-site/unit/` 内置 10 套在**页眉结构、导航形态、网格布局、表格规范与排版气质**上截然不同的 HTML 模板，编译时可通过 Frontmatter `theme: <名称>` 或命令行 `--theme <名称>` 一键切换：
+   - `editorial`（默认，[unit/1.html](./assets/study-site/unit/1.html)）：**现代财经智库风** — 满宽渐变横幅 + 单栏左彩条星级卡片 + 暖象牙纸面
+   - `academic-book`（[unit/theme-academic-book.html](./assets/study-site/unit/theme-academic-book.html)）：**学术专著讲义风** — 双细线居中扉页头 + 书签下划线分栏 + 学术三线表 + 宽屏双栏列表 + 全衬线排版
+   - `bento-tech`（[unit/theme-bento-tech.html](./assets/study-site/unit/theme-bento-tech.html)）：**极简 Bento 科技看板风** — 圆角悬浮顶栏 + 胶囊分段控制器 + 宽屏双列 Bento 便当网格 + 顶彩条卡片与等宽方块编号
+   - `notion-minimal`（[unit/theme-notion-minimal.html](./assets/study-site/unit/theme-notion-minimal.html)）：**极简 Notion 笔记流风** — 彻底去外框卡片，780px 黄金列宽纯白文档流 + 手账荧光笔划重点
+   - `night-terminal`（[unit/theme-night-terminal.html](./assets/study-site/unit/theme-night-terminal.html)）：**暗夜终端专注风** — 深海暗色仪表盘 + 发光胶囊导航 + 霓虹光晕卡片与深夜护眼配色
+   - `swiss-poster`（[unit/theme-swiss-poster.html](./assets/study-site/unit/theme-swiss-poster.html)）：**瑞士国际主义海报风** — 零圆角 2px 纯黑结构网格 + 瑞士红黑撞色块 + 反白条形小标
+   - `cornell-notes`（[unit/theme-cornell-notes.html](./assets/study-site/unit/theme-cornell-notes.html)）：**康奈尔活页笔记风** — 方格纸底纹 + 红色装订双竖线 + 宽屏左线索区/右笔记区双栏结构
+   - `newspaper-broadsheet`（[unit/theme-newspaper-broadsheet.html](./assets/study-site/unit/theme-newspaper-broadsheet.html)）：**经典财经大报风** — FT 鲑鱼粉暖报纸底色 + 刊头双线 + 社论分割版面 + 首字下沉
+   - `neobrutalism`（[unit/theme-neobrutalism.html](./assets/study-site/unit/theme-neobrutalism.html)）：**新粗野主义卡牌风** — 点阵底纹 + 2.5px 粗黑框 + 实心硬投影 + 撞色弹跳学习卡牌
+   - `chinese-ink`（[unit/theme-chinese-ink.html](./assets/study-site/unit/theme-chinese-ink.html)）：**东方宋韵水墨书院风** — 宣纸留白 + 朱砂方印星标 + 双细内框书院卡片 + 竹青浓墨全宋体
+   - `header` 与 `.nav-bar-wrap` 默认不吸顶（非 sticky），保障手机端阅读视野。全部功能均 100% 本地离线可用。
 5. **验收交付**：核对每个 `units` 路径、原始课件相对路径、Mermaid 图表渲染、平行分栏切换、星级筛选、单题答案展开与默写模式。交付时说明输出目录、打开方式、配色及待核对资料。
 
 ## 二、Markdown 模板语法规范（`unit/*.md` → `unit/*.html`）

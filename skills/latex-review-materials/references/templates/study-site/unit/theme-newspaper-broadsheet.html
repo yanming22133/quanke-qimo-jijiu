@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>第一章 示例章节（Markdown 模板演示）</title>
+  <link rel="stylesheet" href="../unit.css">
+  <style>
+/* === 经典财经大报风（FT 鲑鱼粉暖纸 + 刊头双线 + 首字下沉） === */
+:root {
+  --theme: #0d7680; --theme-dark: #084c53; --theme-mid: #1496a3;
+  --theme-light: #e6f2f3; --theme-soft: #f5ebe1;
+  --gold: #990f3d; --gold-bright: #990f3d; --gold-light: #fce9ef; --gold-border: #d9829d;
+  --red: #990f3d; --red-light: #fce9ef; --red-border: #d9829d;
+  --green: #0d7680; --green-light: #e6f4f5; --green-border: #7ec4cb;
+  --paper: #fff1e5; --surface: #fff7f0; --surface-alt: #f6e7da;
+  --ink: #262a33; --ink-muted: #5b5750; --border: #d8c8b8; --border-strong: #9e8f80;
+}
+body {
+  font-family: "Noto Serif SC", "Songti SC", Georgia, "Times New Roman", serif;
+  background: #fff1e5;
+  color: #262a33;
+}
+/* 报刊刊头（Masthead）：居中大报标题 + 顶部粗线与底部双细线 */
+.chapter-hero {
+  background: #fff1e5;
+  color: #262a33;
+  text-align: center;
+  padding: 28px 24px 20px;
+  border-top: 6px solid #262a33;
+  border-bottom: 4px double #262a33;
+}
+.hero-top-row { justify-content: center; border-bottom: 1px solid #d8c8b8; padding-bottom: 10px; margin-bottom: 14px; }
+.chapter-kicker { background: transparent; color: #990f3d; border: none; font-weight: 800; letter-spacing: 0.2em; }
+.hero-star-pill, .hero-star-pill.s5 { background: #990f3d; color: #fff1e5; border-radius: 2px; }
+.chapter-hero h1 { font-size: 2.3rem; font-weight: 900; letter-spacing: 0.04em; color: #1a1d24; }
+.hero-tags { justify-content: center; }
+.hero-tag { background: transparent; color: #5b5750; border: 1px solid #c5b4a3; border-radius: 0; }
+/* 报刊版面索引条 */
+.nav-bar-wrap { background: #f6e7da; border-bottom: 1.5px solid #262a33; box-shadow: none; }
+.nav-tab {
+  background: transparent; border: none; border-right: 1px solid #d2c1b0; border-radius: 0;
+  color: #3e3a35; padding: 8px 15px; font-weight: 600;
+}
+.nav-tab.active { background: #262a33; color: #fff1e5; }
+/* 社论专栏式无阴影分割版面 */
+.page-wrap { max-width: 1040px; }
+.card, .card.kp-card, .card.kp-card[data-stars="5"], .card.kp-card[data-stars="4"] {
+  background: transparent;
+  border: none;
+  border-left: none;
+  border-top: 2px solid #262a33;
+  border-bottom: 1px solid #d8c8b8;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 20px 6px 24px;
+}
+.card.kp-card[data-stars="5"] { border-top: 4px solid #990f3d; }
+.card-header { border-bottom: 1px solid #d8c8b8; }
+.card-header h2, .card-header h3 { font-size: 1.38rem; color: #1a1d24; }
+/* 经典首字下沉（Drop Cap）用于每张考点卡首段 */
+.card > p:first-of-type::first-letter {
+  float: left;
+  font-size: 2.6rem;
+  line-height: 0.9;
+  padding: 4px 8px 0 0;
+  font-weight: 800;
+  color: #990f3d;
+}
+.card h4 { background: transparent; border-left: 4px solid #990f3d; border-radius: 0; color: #990f3d; }
+.card p strong, .card li strong { color: #990f3d; background: rgba(153,15,61,0.08); }
+.table-wrap { border: none; border-radius: 0; }
+table { background: #fff7f0; border-top: 2px solid #262a33; border-bottom: 2px solid #262a33; }
+th { background: #f2dfd0; color: #262a33; }
+.callout { background: #f6e7da !important; border: 1px solid #c5b4a3; border-left: 4px solid #0d7680; border-radius: 0; color: #262a33 !important; }
+.qa-item { background: #fff7f0; border: 1px solid #c5b4a3; border-left: 4px solid #990f3d; border-radius: 0; }
+  </style>
+</head>
+<body data-unit-id="1">
+  <header class="chapter-hero">
+    <div class="chapter-hero-inner">
+      <div class="hero-top-row">
+        <span class="chapter-kicker">第一章</span>
+        <span class="hero-star-pill s5">★★★★★ 核心重点</span>
+      </div>
+      <h1>第一章 示例章节（Markdown 模板演示）</h1>
+      <div class="hero-tags"><span class="hero-tag">📌 一级标题自动分栏</span>
+        <span class="hero-tag">★ 二级标题自动星级卡片</span>
+        <span class="hero-tag">🧠 支持默写模式与单题自测</span></div>
+    </div>
+  </header>
+
+  <div class="nav-bar-wrap">
+    <div class="nav-bar-inner">
+      <div class="nav-tabs">
+        <button class="nav-tab active" type="button" data-target="tab1">📋 核心考点总览</button>
+<button class="nav-tab" type="button" data-target="tab2">🌐 核心概念板块</button>
+<button class="nav-tab" type="button" data-target="tab3">📊 模型与表格对比</button>
+<button class="nav-tab" type="button" data-target="tab4">✏️ 模拟自测题</button>
+<button class="nav-tab" type="button" data-target="raw-materials">📄 原始课件</button>
+      </div>
+      <div class="star-filter" aria-label="按重要程度筛选考点">
+        <span class="star-filter-label">星级筛选：</span>
+        <button class="filter-btn active" type="button" data-min="0">全部考点</button>
+        <button class="filter-btn" type="button" data-min="4">★★★★+</button>
+        <button class="filter-btn" type="button" data-min="5">★★★★★</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="page-wrap">
+    <section class="section active" id="section-tab1">
+<article class="card">
+  <div class="card-header">
+    <h2>全章知识框架导图</h2>
+  </div>
+  <div class="mermaid-wrap"><div class="mermaid">flowchart LR
+  R[&quot;第一章 核心框架&quot;]:::root
+  R --&gt; A[&quot;板块一：核心概念 ★★★★★&quot;]:::s5
+  R --&gt; B[&quot;板块二：分析模型 ★★★★&quot;]:::s4
+  R --&gt; C[&quot;板块三：模拟自测 ★★★&quot;]:::s3
+  A --&gt; A1[&quot;关键词加粗支持默写模式&quot;]:::s5
+  B --&gt; B1[&quot;表格与 Mermaid 图表&quot;]:::s4
+  classDef root fill:#0f3d3e,stroke:#092627,color:#f8f6f1,font-weight:bold
+  classDef s5 fill:#fef2f2,stroke:#b91c1c,stroke-width:2px,color:#7f1d1d,font-weight:bold
+  classDef s4 fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f,font-weight:bold
+  classDef s3 fill:#e6f0ef,stroke:#0f3d3e,stroke-width:1.2px,color:#092627</div></div>
+<div class="callout exam"><p><strong>考情提示</strong>：本文件演示如何仅通过编写标准 Markdown 生成全套复习网页。点击右上角 <strong><code class="inline-code">🧠 默写模式</code></strong> 可对所有加粗关键词打模糊滤镜，单击任意一处单独显示。</p></div>
+</article>
+</section>
+<section class="section" id="section-tab2">
+<article class="card kp-card" data-stars="5">
+  <div class="card-header">
+    <h2>考点一：层级与文字记忆样式</h2>
+    <span class="star-badge s5">★★★★★ 必考核心</span>
+  </div>
+  <h4>1. 有序列表（自动渲染彩色圆形序号）</h4>
+<ol>
+<li><strong>核心定义</strong>：使用 <code class="inline-code"><strong>加粗</strong></code> 标注必背关键词，开启默写模式时自动模糊，<em>斜体文字</em> 会渲染为暖金衬线强调样式。</li>
+<li><strong>重要程度</strong>：在二级标题 <code class="inline-code">##</code> 末尾加上 <code class="inline-code">★★★★★</code>、<code class="inline-code">★★★★</code>、<code class="inline-code">★★★</code> 或 <code class="inline-code">★★</code>，自动生成对应色条、星级徽章与筛选属性。</li>
+<li><strong>公式与代码</strong>：行内公式如 <span class="math-inline">V = P × Q ⟺ 价值创造</span>，行内代码如 <code class="inline-code">unit/1.md</code>。</li>
+</ol>
+<h4>2. 无序列表（自动渲染箭头与嵌套圆点）</h4>
+<ul>
+<li><strong>一级要点</strong>：使用金/红三角箭头引导视线。</li>
+<ul>
+<li>嵌套细节：次级说明自动缩进并切换为深青圆点。</li>
+<li>案例举证：<em>如格兰仕、携程、美的等经典企业案例</em>。</li>
+</ul>
+</ul>
+<div class="callout term"><p><strong>术语对照</strong>：新教材称“低成本定位”，传统表述称“成本领先战略”，两者等价。</p></div>
+<div class="callout warn"><p><strong>易错避坑</strong>：包含“易错 / 避坑 / 注意 / 陷阱”的引用块会自动变为琥珀色警示框。</p></div>
+</article>
+<div class="empty-filter-msg">当前板块在该星级筛选条件下暂无对应考点，可点击上方“全部考点”查看。</div>
+</section>
+<section class="section" id="section-tab3">
+<article class="card kp-card" data-stars="4">
+  <div class="card-header">
+    <h2>考点二：模型对比表与内嵌图表</h2>
+    <span class="star-badge s4">★★★★ 高频重点</span>
+  </div>
+  <div class="table-wrap"><table><thead><tr><th>维度</th><th>方案 A</th><th>方案 B</th><th>适用条件</th></tr></thead><tbody><tr><td><strong>核心优势</strong></td><td><strong>低成本规模效应</strong></td><td><strong>独特产品差异化</strong></td><td>视行业结构而定</td></tr><tr><td><strong>主要风险</strong></td><td>易受原材料波动冲击</td><td>研发与营销成本过高</td><td>需动态评估</td></tr></tbody></table></div>
+<h4>内嵌流程图示例</h4>
+<div class="mermaid-wrap"><div class="mermaid">flowchart TD
+  S[&quot;外部环境分析&quot;]:::s4 --&gt; D[&quot;战略制定与选择&quot;]:::root
+  I[&quot;内部能力分析&quot;]:::s4 --&gt; D
+  D --&gt; E[&quot;战略实施与控制&quot;]:::s3
+  classDef root fill:#0f3d3e,stroke:#092627,color:#f8f6f1,font-weight:bold
+  classDef s4 fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f,font-weight:bold
+  classDef s3 fill:#e6f0ef,stroke:#0f3d3e,stroke-width:1.2px,color:#092627</div></div>
+</article>
+<div class="empty-filter-msg">当前板块在该星级筛选条件下暂无对应考点，可点击上方“全部考点”查看。</div>
+</section>
+<section class="section" id="section-tab4">
+<div class="quiz-toolbar">
+  <span>点击每题下方按钮显示或收起答案</span>
+  <button class="btn-outline" id="toggleAllAnswers" type="button">全部展开答案</button>
+</div>
+<div class="qa-section-title">一、单项选择题</div>
+<article class="qa-item mcq">
+  <div class="qa-meta"><span class="qa-type">单选题 1</span></div>
+  <div class="qa-question"><p>在 Markdown 模板中，哪一级标题会自动切分为顶部的平行栏目（Tab）？（ ）</p>
+<ul>
+<li>A. 一级标题 <code class="inline-code">#</code></li>
+<li>B. 二级标题 <code class="inline-code">##</code></li>
+<li>C. 三级标题 <code class="inline-code">###</code></li>
+<li>D. 四级标题 <code class="inline-code">####</code></li>
+</ul></div>
+  <button class="qa-toggle" type="button">查看参考答案与采分点 ▼</button>
+  <div class="qa-answer"><p><strong>参考答案：A</strong>。一级标题 <code class="inline-code">#</code> 自动生成平行分栏；二级标题 <code class="inline-code">##</code> 生成星级卡片大标题；三级 <code class="inline-code">###</code> 生成小节标题。</p></div>
+</article>
+<div class="qa-section-title">二、简答题</div>
+<article class="qa-item short">
+  <div class="qa-meta"><span class="qa-type">简答题 1 · 10分</span></div>
+  <div class="qa-question"><p><strong>简述本复习模板支持哪些核心学习交互功能？</strong></p></div>
+  <button class="qa-toggle" type="button">查看参考答案与采分点 ▼</button>
+  <div class="qa-answer"><ol>
+<li><strong>平行板块切换</strong>：按一级标题自动分栏，避免单页过长。</li>
+<li><strong>星级筛选</strong>：支持一键筛选 <code class="inline-code">★★★★+</code> 与 <code class="inline-code">★★★★★</code> 必考核心。</li>
+<li><strong>默写模式</strong>：一键模糊所有加粗关键词，单击某处独立显示核对。</li>
+<li><strong>单题独立答案切换</strong>：每道自测题配有独立按钮显示/收起答案与采分点。</li>
+</ol></div>
+</article>
+</section>
+<section class="section" id="section-raw-materials">
+<div class="pdf-block">
+  <div class="pdf-head">
+    <div class="pdf-name">📄 第一章 原始课件 PDF（示例路径）</div>
+    <div class="pdf-actions">
+      <a class="pdf-btn" href="../../slides/chapter1.pdf" target="_blank" rel="noopener">↗ 新窗口打开</a>
+      <a class="pdf-btn primary" href="../../slides/chapter1.pdf" download="chapter1.pdf">↓ 下载 PDF</a>
+    </div>
+  </div>
+  <iframe class="pdf-viewer" data-src="../../slides/chapter1.pdf" title="第一章 原始课件 PDF（示例路径）"></iframe>
+</div>
+</section>
+  </main>
+
+  <footer class="chapter-footer">
+    <div class="review-bar">
+      <button class="review-btn" id="markReviewedBtn" type="button">☐ 标记本章已复习完成</button>
+    </div>
+  </footer>
+
+  <script src="../vendor/mermaid.min.js"></script>
+  <script src="../unit.js"></script>
+</body>
+</html>
