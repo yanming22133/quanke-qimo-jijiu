@@ -1,8 +1,8 @@
-# Output formats: PDF vs DOCX
+# Output formats: PDF vs DOCX vs HTML Review Site
 
-Ask the user first: **PDF / DOCX / both**. Default: PDF.
+Ask the user first: **PDF / DOCX / HTML 交互复习网站 / 组合（如 PDF 刷卷 + HTML 刷背）**. Default: PDF.
 
-## 1. PDF (preferred)
+## 1. PDF (preferred for printing & timed mock exams)
 
 ```bash
 xelatex -interaction=nonstopmode -halt-on-error file.tex
@@ -36,7 +36,7 @@ If `pandoc` is missing:
 - macOS: `brew install pandoc`
 - If it cannot be installed, fall back to PDF and tell the user.
 
-## 3. Mapping caveats
+### DOCX Mapping caveats
 
 | LaTeX element | DOCX result |
 |---|---|
@@ -48,11 +48,24 @@ If `pandoc` is missing:
 
 **Answer space in DOCX**: use empty paragraphs (`&nbsp;` lines) rather than `\vspace`; keep the same visual height (e.g. 12 empty lines for an essay).
 
+## 3. Interactive Offline HTML Review Website (`HTML 交互复习网站`)
+
+Best for **screen/mobile study, rapid star-level review, active cloze recall (`🧠 默写模式`), and browsing original courseware**. Generated from clean Markdown chapter files (`unit/*.md`) via `references/build_unit.py` + `references/templates/study-site/`.
+
+- **Core features**:
+  - Parallel tabs per chapter (`#` H1 → tab; `##` H2 → star-rated card with `★★★★★`~`★★` filter bar)
+  - Offline Mermaid flowcharts & knowledge maps (local `vendor/mermaid.min.js` with CDN fallback)
+  - Per-question interactive answer toggles (`:::qa ... --- ... :::`) + expand/collapse all
+  - **`🧠 默写模式`**: one-click blur on all bold keywords (`**...**`), click any single term to reveal/re-hide
+  - Parallel `📄 原始课件` tab for lazy-loaded PDF preview & Word download
+  - Non-sticky mobile-friendly layout + `localStorage` chapter completion progress bar
+- **Full specification & build steps**: see `references/web-site-builder.md`.
+
 ## 4. Verification
 
-- Open the DOCX in Word/WPS; check page count, tables, and that Chinese renders (no boxes).
-- Check that each big question still has writing space.
-- If the DOCX looks broken, deliver the PDF and say why.
+- **PDF**: check page count and inspect rendered pages for overfull boxes or broken figures.
+- **DOCX**: open in Word/WPS; check page count, tables, Chinese rendering, and big-question writing space. If broken, deliver PDF and explain why.
+- **HTML Site**: open `index.html`; verify chapter switching, parallel tabs, star filtering, Mermaid SVG rendering, per-question Q&A toggles, `🧠 默写模式`, and `0` broken courseware links.
 
 ## 5. Never
 

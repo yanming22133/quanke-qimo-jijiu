@@ -152,9 +152,17 @@ A/B/C/D/E 只是**套卷编号**，不是难度等级：
 
 不传卷子也行，直接说“我第 5 章不会”，它按单点补弱出阶梯题。
 
-### 6. 输出格式可选：PDF / DOCX
+### 6. 输出格式可选：PDF / DOCX / 离线交互复习网站（HTML）
 
-默认 PDF；要 Word 就走 Markdown + pandoc，标注“best effort”（tcolorbox 变引用块，公式转 Word 公式）。Pandoc 没装会提示安装命令，装不上就回退 PDF。
+- **PDF**（默认）：LaTeX 排版，最适合打印和整卷限时模考。
+- **DOCX**：走 Markdown + pandoc，标注“best effort”（tcolorbox 变引用块，公式转 Word 公式）。Pandoc 没装会提示安装命令，装不上就回退 PDF。
+- **HTML 离线交互复习网站**（Markdown 驱动，可与 PDF 组合交付）：基于 `references/build_unit.py` 与 `references/templates/study-site/`，只需在 `unit/` 下写标准 Markdown（`#` 自动分栏、`##` 自动星级卡片、`:::qa` 单题切换答案、```` ```mermaid ```` 流程图），一键编译成可本地离线打开的复习网站，自带：
+  - 侧栏章节导航 + 平行板块分栏 + 复习进度条（`localStorage` 持久化）
+  - `★★★★★`～`★★` 星级考点筛选条 + 记忆强化排版（彩色序号、箭头列表、加粗荧光高亮、暖金斜体）
+  - **🧠 默写模式**：一键模糊全部加粗关键词，单击某处单独显示/重新遮盖
+  - 单题独立切换答案与采分点 + 一键全部展开/收起
+  - 平行 `📄 原始课件` 栏（PDF 懒加载内嵌预览 + Word 原件下载）与非吸顶移动端友好布局
+  - 完整语法与构建规范见 `skills/latex-review-materials/references/web-site-builder.md`。
 
 ### 7. 复习计划与速查卡
 
@@ -189,6 +197,22 @@ A/B/C/D/E 只是**套卷编号**，不是难度等级：
 
 模板在 `references/templates/ink-saving.tex`，说明在 `references/layout-presets.md`。
 图模板在 `references/templates/figures.tex`（时间线/分类树/曲线/损益图/空白答题区）。
+
+---
+
+## 快捷指令（单选 / 自由组合 / 全套生成）
+
+仓库在 `commands/` 下内置了 7 个模块化指令文件，既可单独生成某一类资料，也可自由组合任意几类，或一键生成全套（支持直接放进支持自定义命令的 Agent 目录，或直接把指令路径/名称告诉 Agent）：
+
+| 指令 | 文件 | 作用 | 使用示例 |
+| :--- | :--- | :--- | :--- |
+| **`/review-all`** | `commands/review-all.md` | **全套一键生成**（知识点 + 练习 + 模拟卷与答案 + 速查卡 + 复习计划 + 离线复习网站） | `/review-all F:\课程\战略管理 2026-12-05` |
+| **`/review-pick`** | `commands/review-pick.md` | **自由组合任意几类**（`notes` / `exercises` / `exams` / `site` / `card` / `plan` / `fix`） | `/review-pick F:\课程\战略管理 notes,site,exams` |
+| **`/review-notes`** | `commands/review-notes.md` | 单独生成**知识点汇总 PDF**（可选 `--with-card` 附一页速查卡） | `/review-notes F:\课程\战略管理 --with-card` |
+| **`/review-exams`** | `commands/review-exams.md` | 单独生成**章节练习 + 模拟卷 A–C/A–E 与独立答案册 PDF** | `/review-exams F:\课程\战略管理 A-C` |
+| **`/review-site`** | `commands/review-site.md` | 单独生成**离线交互复习网站 HTML**（平行分栏、星级筛选、Mermaid、单题切换、默写模式、原课件） | `/review-site F:\课程\战略管理` |
+| **`/review-plan`** | `commands/review-plan.md` | 单独生成**倒计时每日复习计划**（可选 `--with-card` 附速查卡） | `/review-plan 2026-12-05 4h 第五章` |
+| **`/review-fix`** | `commands/review-fix.md` | 单独执行**错题复盘 + 补弱卷与答案 + 错题本** | `/review-fix F:\课程\模拟卷A_已作答.pdf` |
 
 ---
 
@@ -261,21 +285,40 @@ reviewcraft/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
+├── commands/                          # 模块化快捷指令（单选 / 自由组合 / 全套生成）
+│   ├── review-all.md                  # /review-all   全套一键生成（PDF套件 + HTML网站）
+│   ├── review-pick.md                 # /review-pick  自由组合任意几类模块
+│   ├── review-notes.md                # /review-notes 单独生成知识点汇总（+可选速查卡）
+│   ├── review-exams.md                # /review-exams 单独生成模拟卷与章节练习
+│   ├── review-site.md                 # /review-site  单独生成离线交互复习网站
+│   ├── review-plan.md                 # /review-plan  单独生成倒计时复习计划
+│   └── review-fix.md                  # /review-fix   错题复盘与定向补弱卷
 └── skills/
-    └── latex-review-materials/
+    ├── latex-review-materials/
+    │   ├── SKILL.md
+    │   └── references/
+    │       ├── course-types.md        # 分课程类型打法
+    │       ├── exam-blueprint.md      # 试卷模板 + 留白表 + 交付清单
+    │       ├── review-mode.md         # 复盘补弱：诊断表/报告/补弱卷模板
+    │       ├── study-plan.md          # 倒计时计划：算法 / 天数骨架 / 重排规则
+    │       ├── make_plan.py           # 生成 复习计划.md/.tex/.plan.json
+    │       ├── output-formats.md      # PDF / DOCX / HTML 交互复习网站流程
+    │       ├── web-site-builder.md    # HTML 交互复习网站构建与 Markdown 规范
+    │       ├── build_unit.py          # Markdown -> HTML 静态复习页编译器
+    │       ├── exam_lint.py           # 跨卷去重 / 难度分布检查
+    │       ├── latex-format-rules.md  # LaTeX preamble 与排版规则
+    │       ├── quality_check.py       # 编译前自动检查
+    │       └── templates/
+    │           ├── plan.example.json  # 计划输入模板
+    │           ├── ink-saving.tex     # 省墨讲义模板
+    │           ├── figures.tex        # TikZ 图模板
+    │           └── study-site/        # 离线交互复习网站静态模板
+    └── course-review-template/        # 独立的离线复习网站生成 Skill（Markdown 驱动）
         ├── SKILL.md
-        └── references/
-            ├── course-types.md        # 分课程类型打法
-            ├── exam-blueprint.md      # 试卷模板 + 留白表 + 交付清单
-            ├── review-mode.md         # 复盘补弱：诊断表/报告/补弱卷模板
-            ├── study-plan.md          # 倒计时计划：算法 / 天数骨架 / 重排规则
-            ├── make_plan.py           # 生成 复习计划.md/.tex/.plan.json
-            ├── templates/
-            │   └── plan.example.json  # 计划输入模板
-            ├── output-formats.md      # PDF vs DOCX（pandoc）流程
-            ├── exam_lint.py           # 跨卷去重 / 难度分布检查
-            ├── latex-format-rules.md  # LaTeX  preamble 与排版规则
-            └── quality_check.py       # 编译前自动检查
+        ├── scripts/
+        │   └── build_unit.py          # Markdown -> HTML 编译器（支持单文件/整目录）
+        └── assets/
+            └── study-site/            # 完整离线网站模板（含本地 vendor/mermaid.min.js、默写模式等）
 ```
 
 ---
@@ -300,6 +343,16 @@ reviewcraft/
 - 不生成答案以外的“标准答案”：文科与思政的答案给要点与评分点，不是唯一解。
 
 ---
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=yanming22133%2Fquanke-qimo-jijiu&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=yanming22133/quanke-qimo-jijiu&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=yanming22133/quanke-qimo-jijiu&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=yanming22133/quanke-qimo-jijiu&type=date&legend=top-left" />
+ </picture>
+</a>
 
 ## License
 

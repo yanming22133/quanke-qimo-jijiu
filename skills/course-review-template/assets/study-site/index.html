@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>课程名称 · 期末复习站</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-brand">
+      <div class="brand-mark">课</div>
+      <div class="header-titles">
+        <h1>课程名称</h1>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="progress-pill">
+        <span>进度 <strong id="progressText">0/1</strong></span>
+        <div class="progress-bar-mini"><div class="progress-bar-mini-fill" id="progressFill"></div></div>
+      </div>
+      <div class="exam-date-pill">📅 期末复习</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <span>🧭</span>
+          <span class="sidebar-title-text">章节导航</span>
+        </div>
+      </div>
+      <nav class="nav-list" id="navList" aria-label="章节导航"></nav>
+      <div class="sidebar-footer">
+        <button class="nav-item nav-collapse" id="collapse" type="button">
+          <span class="nav-icon">◀</span>
+          <span class="nav-text-wrap"><span class="nav-text">收起侧栏</span></span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="content" id="content">
+      <div class="welcome" id="welcome">
+        <div class="welcome-inner">
+          <section class="hero-card">
+            <div>
+              <h2>《课程名称》复习总览</h2>
+              <p>选择下方或左侧章节进入学习，支持平行板块切换、星级筛选、Mermaid 流程图、单题自测与默写模式。</p>
+              <div class="hero-actions">
+                <button class="btn-primary" type="button" data-jump="1">🔥 开始第一章学习</button>
+              </div>
+            </div>
+            <div class="score-box">
+              <div class="score-box-title">题型与分值（100 分）</div>
+              <div class="score-grid">
+                <div class="score-item">
+                  <div class="num">20 分</div>
+                  <div class="lbl">选择题</div>
+                </div>
+                <div class="score-item">
+                  <div class="num">30 分</div>
+                  <div class="lbl">简答题</div>
+                </div>
+                <div class="score-item">
+                  <div class="num">20 分</div>
+                  <div class="lbl">论述题</div>
+                </div>
+                <div class="score-item">
+                  <div class="num">30 分</div>
+                  <div class="lbl">案例分析</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="section-heading">
+            <h3>📚 章节目录</h3>
+          </div>
+
+          <section class="chapter-grid" id="chapterGrid"></section>
+        </div>
+      </div>
+
+      <div class="iframe-container" id="frameWrap">
+        <iframe id="frame" title="章节内容"></iframe>
+      </div>
+    </main>
+  </div>
+
+  <button class="mobile-toggle" id="mobileToggle" type="button" aria-label="切换章节导航" aria-expanded="false">☰</button>
+  <script src="site.js"></script>
+</body>
+</html>

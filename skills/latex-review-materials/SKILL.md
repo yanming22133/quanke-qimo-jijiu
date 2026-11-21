@@ -1,6 +1,6 @@
 ---
 name: latex-review-materials
-description: Use when generating Chinese LaTeX review materials from any course content (PDFs, PPTs, DOCX, lecture recordings) or planning the final days before an exam. Extracts the real exam format, scope and emphasis first, then builds chapter summaries, exercises, and 3-5 mock papers with separate answer files, scoring rubrics, answer space for writing, and six big-question types (calculation, proof, diagram, programming, case, material analysis). Includes countdown study-plan generation from the exam date (day-by-day blocks, spaced review, red/yellow/green topic weighting, 14/10/7/5/3/2/1-day skeletons) and per-type playbooks for STEM, humanities, ideology/politics, management, law and medicine.
+description: Use when generating Chinese LaTeX review materials (PDF/DOCX) or an interactive offline Markdown-driven HTML review website from any course content (PDFs, PPTs, DOCX, lecture recordings), or planning the final days before an exam. Extracts the real exam format, scope and emphasis first, then builds chapter summaries, exercises, 3-5 mock papers with separate answer files, scoring rubrics, answer space for writing, six big-question types, and optional interactive static review websites (parallel tabs, star-rated考点 filtering, offline Mermaid flowcharts, per-question Q&A toggles, cloze-blur 默写模式, and original courseware preview). Includes countdown study-plan generation and per-type playbooks for STEM, humanities, ideology/politics, management, law and medicine.
 ---
 
 # LaTeX Chinese Review Materials Generator (Universal)
@@ -25,11 +25,12 @@ Generate 2 + 2N core files, plus 0–3 optional artifacts. Default N = 5 → 12 
 
 ### Output format (ask first)
 
-Ask: **PDF / DOCX / both** (default PDF).
+Ask: **PDF / DOCX / HTML 交互复习网站 / 组合（如 PDF 刷卷 + HTML 刷背）** (default PDF).
 
-- **PDF**: `xelatex` — best fidelity, preferred for printing.
+- **PDF**: `xelatex` — best fidelity, preferred for printing and timed mock exams.
 - **DOCX**: write a Markdown mirror (`*.md`) and run `pandoc` — best effort; tcolorbox boxes become blockquotes, complex tables may shift.
-- If `pandoc` is missing: `winget install --id JohnMacFarlane.Pandoc -e` (Windows) or `brew install pandoc` (macOS). If it cannot be installed, fall back to PDF and say so.
+  - If `pandoc` is missing: `winget install --id JohnMacFarlane.Pandoc -e` (Windows) or `brew install pandoc` (macOS). If it cannot be installed, fall back to PDF and say so.
+- **HTML 交互复习网站**: write structured Markdown per chapter (`unit/*.md`) and compile with `references/build_unit.py` + `references/templates/study-site/` — zero-backend offline static site with parallel tabs (`#`), star-rated cards (`## ... ★★★★★`) & filter bar, offline Mermaid flowcharts, memory typography, per-question Q&A toggles (`:::qa`), **`🧠 默写模式`** (blur bold keywords & click to reveal individually), and parallel `📄 原始课件` preview. Full spec in `references/web-site-builder.md`.
 - Never convert DOCX→PDF; always generate from source.
 
 ### Optional artifacts
@@ -57,10 +58,10 @@ Each exam uses the format extracted in Step 0. Fallback only if nothing is known
 
 ## Use when
 
-- User asks to generate "复习资料", "考点总结", "模拟卷", "练习题"
+- User asks to generate "复习资料", "考点总结", "模拟卷", "练习题", or "复习网站 / 学习资料网站"
 - User asks "还有 N 天考试，怎么排复习计划" / gives an exam date and daily hours
 - User uploads a finished paper / wrong questions / names a weak topic and wants targeted practice ("复盘", "错题", "补弱")
-- User provides course materials (PDF/PPT/DOCX) and wants PDF output
+- User provides course materials (PDF/PPT/DOCX) and wants PDF, DOCX, or interactive offline HTML website output
 - Any course type, any language mix (Chinese, English, bilingual)
 
 **Skip when**: only 1-2 pages of material; user needs single file only; pure English without CJK.
@@ -129,7 +130,7 @@ Never start writing on assumptions. If the materials don't answer the questions 
 7. 想要几套卷（默认 5：A–C + D 提高 + E 挑战；时间紧可只要 3 套，或 2 套）。
 8. 答案要多细（只给答案 / 给步骤 / 给评分点 + 易错点）。
 9. 是否需要 OCR 扫描教材、是否需要双语。
-10. 输出格式：PDF / DOCX / 两者（默认 PDF）。
+10. 输出格式：PDF / DOCX / HTML 交互复习网站 / 组合（默认 PDF）。
 11. 要不要附加：考前速查卡 / 复习计划 / 错题本（默认考前一周加）。
 12. 资料形态：省墨讲义 / 彩框版 / 双栏速查 / 题目册+答案册（默认省墨讲义）。
 
